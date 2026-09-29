@@ -15,18 +15,23 @@ export type HeaderTheme = "dark" | "light" | "transparent-media";
 interface HeaderProps {
   /**
    * Explicit, page-declared theme for the header's "at rest" (not scrolled)
-   * appearance — the default value, supplied by whoever renders Header.
+   * appearance — the default value, supplied by whoever renders Header
+   * (currently `"dark"`, passed once from app/layout.tsx).
    *
-   * One narrow, named exception (Phase 7): `/experiences` and its detail
-   * routes force `dark` regardless of this prop, since those pages have no
-   * photography for `transparent-media`'s scrim to justify — see the
-   * `pathname` check below and CLAUDE.md's Navigation section. This is a
-   * fixed, explicit route check, not a generalized theme engine: still NOT
-   * auto-detected in the IntersectionObserver/scroll-position sense — no
-   * page has real editorial/cinematic sections yet that would justify that
-   * (see CLAUDE.md). If a third distinct page-background need appears
-   * later, that's the point to build the real per-page mechanism Phase 5
-   * deferred, not to keep appending routes here.
+   * One narrow, named exception (Phase 8, revised from Phase 7): `/` forces
+   * `transparent-media` regardless of this prop — the homepage's own
+   * full-bleed photographic hero is the genuine special case, not an
+   * arbitrary default the rest of the site deviates from. This flipped
+   * direction from Phase 7's original shape (`/experiences*` forcing
+   * `dark` against a `transparent-media` default) once a second real route
+   * (`/maasplassen`) also needed `dark` — two of three real routes wanting
+   * the same thing made `dark` the honest default, not `transparent-media`.
+   * This is a fixed, explicit route check, not a generalized theme engine:
+   * still NOT auto-detected in the IntersectionObserver/scroll-position
+   * sense — no page has real editorial/cinematic sections yet that would
+   * justify that (see CLAUDE.md). If a genuinely different third case
+   * appears later, that's the point to build the real per-page mechanism
+   * Phase 5 deferred, not to keep flipping or appending routes here.
    */
   theme?: HeaderTheme;
   /**
@@ -75,13 +80,11 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
   // so this also stays correct across client-side App Router navigation
   // without needing to re-derive `initialSuppressed`.
   const suppressed = pathname === "/" && suppressedState;
-  // Phase 7 exception (see the `theme` prop doc above): `/experiences` and
-  // its detail routes force `dark`, overriding whatever the page renderer
-  // passed. The exact `===`/`startsWith("/experiences/")` pair — not a bare
-  // `startsWith("/experiences")` — deliberately excludes an unrelated
-  // future route like `/experiences-extra`.
-  const isExperiencesRoute = pathname === "/experiences" || pathname.startsWith("/experiences/");
-  const theme = isExperiencesRoute ? "dark" : themeProp;
+  // Phase 8 exception (see the `theme` prop doc above): "/" forces
+  // `transparent-media`, overriding whatever the page renderer passed.
+  // Simpler than the check it replaces — "/" has no trailing-slash/prefix
+  // ambiguity to guard against, unlike `/experiences` vs. `/experiences-extra`.
+  const theme = pathname === "/" ? "transparent-media" : themeProp;
   const isScrolled = useIsScrolled(SCROLL_THRESHOLD);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);

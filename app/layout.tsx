@@ -62,13 +62,14 @@ export default async function RootLayout({
             at "/" — the only real route today; revisit if a first-time
             visitor's entry route ever needs to vary.
 
-            `theme="transparent-media"` is a SITE-WIDE default (Header
-            mounts once, globally — there's no per-page override mechanism
-            yet), set here for the homepage's photographic hero. The moment
-            a second real page with a different background exists, it will
-            need its own reason this default still suits it, or a real
-            per-page theme mechanism — deliberately not built until then. */}
-        <Header suppressed={!hasArrived} theme="transparent-media" />
+            `theme="dark"` is the SITE-WIDE default (Header mounts once,
+            globally). This flipped in Phase 8: with `/experiences*` and
+            `/maasplassen` both needing `dark` and only `/` wanting
+            `transparent-media`, `dark` is now the honest default rather
+            than a growing list of routes overriding a `transparent-media`
+            default. `Header.tsx` forces `transparent-media` back on for
+            `pathname === "/"` specifically — see its own doc comment. */}
+        <Header suppressed={!hasArrived} theme="dark" />
         {children}
       </body>
     </html>
