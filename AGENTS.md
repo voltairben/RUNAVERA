@@ -109,7 +109,7 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 
 ## Arrival (Phase 4)
 
-`components/Arrival.tsx` — the full-viewport, first-visit entry moment at `/`. Renders **in-flow** (not `position: fixed`), stacked directly above the existing `FoundationPlaceholder` in `app/page.tsx` — never a replacement for it. This is what lets a no-JS visitor simply scroll past it, or use the existing skip-to-content link, and still reach `#main-content` with zero JS required.
+`components/Arrival.tsx` — the full-viewport, first-visit entry moment at `/`. Renders **in-flow** (not `position: fixed`), stacked directly above the homepage in `app/page.tsx` — never a replacement for it. This is what lets a no-JS visitor simply scroll past it, or use the existing skip-to-content link, and still reach `#main-content` with zero JS required.
 
 - **Concept**: static logo = the confluence ("where two waters meet") already depicted in the logo's own monogram (two strands merged). The animated Current = the journey that follows — extends outward from the identity, never toward it. Sequence: logo fades in → held pause → tagline fades in → Current draws outward → holds indefinitely (does **not** auto-complete) → visitor-triggered exit.
 - **First-time vs. returning**: gated by the `runavera_arrived` cookie (`lib/arrival-cookie.ts`, ~1 year). `app/layout.tsx` and `app/page.tsx` both read it server-side via `cookies()` — a returning visitor never gets `<Arrival>` in the DOM at all (zero flash), and `Header`'s initial visibility is seeded correctly from the same check (see Header below). This is why both routes are dynamically rendered (`ƒ`, not static) — an accepted, necessary tradeoff for that zero-flash guarantee, not an oversight.
@@ -144,7 +144,7 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 
 Phase 5 — Main Homepage, complete. See the project brief pasted into the session and the approved plan for the full 23-phase sequence. Do not build Experience detail pages, the real `/maasplassen` page, `/about`, `/plan`, enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
 
-## Agent responsibilities (`.claude/agents/`)
+## Agent responsibilities (`.codex/agents/`)
 
 Brand Guardian (identity/logo/palette consistency), UI Designer (visual polish), UX Architect (IA/CSS architecture), Frontend Developer (implementation), Backend Architect (data/APIs — not needed yet), Application Security Engineer (not needed yet), Reality Checker (post-milestone sanity check), Test Results Analyzer (test/CI failure analysis). Don't invoke agents whose expertise the current phase doesn't need.
 
@@ -153,13 +153,3 @@ Brand Guardian (identity/logo/palette consistency), UI Designer (visual polish),
 - No booking backend, CMS, or database until a real requirement exists.
 - No animation libraries, large UI kits, icon libraries, WebGL, or video until a phase actually calls for them.
 - Real business data (prices, availability, etc.) does not exist — use structured placeholder data, never invented real-looking data.
-
-<!-- BEGIN:nextjs-agent-rules -->
-
-# This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->

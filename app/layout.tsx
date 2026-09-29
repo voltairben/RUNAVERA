@@ -56,12 +56,19 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        {/* Initial value only — Header manages `suppressed` as its own
+        {/* Initial `suppressed` value only — Header manages that as its own
             state from here on and flips it via the arrival-complete event
             (see components/Header.tsx). Assumes Arrival only ever renders
             at "/" — the only real route today; revisit if a first-time
-            visitor's entry route ever needs to vary. */}
-        <Header suppressed={!hasArrived} />
+            visitor's entry route ever needs to vary.
+
+            `theme="transparent-media"` is a SITE-WIDE default (Header
+            mounts once, globally — there's no per-page override mechanism
+            yet), set here for the homepage's photographic hero. The moment
+            a second real page with a different background exists, it will
+            need its own reason this default still suits it, or a real
+            per-page theme mechanism — deliberately not built until then. */}
+        <Header suppressed={!hasArrived} theme="transparent-media" />
         {children}
       </body>
     </html>

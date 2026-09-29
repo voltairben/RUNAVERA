@@ -1,60 +1,171 @@
 import { cookies } from "next/headers";
+import Image from "next/image";
 
 import { Arrival } from "@/components/Arrival";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
-import { Logo } from "@/components/Logo";
+import { Pillar } from "@/components/Pillar";
 import { TextLink } from "@/components/TextLink";
 import { ARRIVAL_COOKIE_NAME } from "@/lib/arrival-cookie";
 
-// Temporary Phase 2/3 foundation test surface — NOT the homepage, hero, or
-// a finished main-site entry. What a first-time visitor sees right after
-// Arrival, and what a returning visitor sees immediately. A plain inventory
-// of the design-system primitives, laid out like a style guide so it can't
-// be mistaken for a draft of the real site. Replaced entirely when the real
-// homepage is built in a later, separately approved phase.
-function FoundationPlaceholder() {
+// The real RUNAVERA homepage (Phase 5). Replaces the Phase 2/3 foundation
+// test surface entirely — this is what a first-time visitor sees right
+// after Arrival, and what a returning visitor sees immediately.
+function HomePage() {
   return (
-    <main id="main-content" className="pt-header flex flex-col gap-section py-16">
-      <Container size="wide" className="flex items-center gap-tight">
-        <Logo variant="primary" priority className="h-10 w-10 object-contain" />
-        <span className="text-caption text-mist">
-          RUNAVERA — foundation test surface, Phase 2 (not the homepage)
-        </span>
-      </Container>
-
-      <Container size="measure" className="flex flex-col gap-hairline">
-        <Eyebrow>Typography</Eyebrow>
-        <h1 className="text-h1">Design System Check</h1>
-        <p className="text-body text-mist">
-          A plain inventory confirming the type scale, spacing, layout, color, and core UI
-          primitives render correctly.
-        </p>
-      </Container>
-
-      <Container size="measure" className="flex flex-col gap-tight">
-        <Eyebrow>Buttons</Eyebrow>
-        <div className="flex flex-wrap items-center gap-tight">
-          <Button variant="primary">Plan your experience</Button>
-          <Button variant="secondary">Explore the water</Button>
+    <main id="main-content">
+      {/* ---------- Hero ---------- */}
+      <section className="relative flex h-dvh flex-col justify-end overflow-hidden bg-deep-water">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/roermond-sunset-hero.png"
+            alt="A warm golden sunset over a calm river near Roermond, with a grassy, wildflower-lined bank in the foreground and a tree-lined horizon reflected in the water."
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+            style={{ objectPosition: "50% 35%" }}
+          />
+          {/* Bottom-weighted Deep Water scrim — legibility over photography,
+              the same single documented gradient exception the Header's
+              transparent-media theme already uses, not a second one. */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-deep-water via-deep-water/40 to-transparent"
+          />
         </div>
-      </Container>
 
-      <Container size="measure" className="flex flex-col gap-hairline">
-        <Eyebrow>Text link</Eyebrow>
-        <TextLink href="#" variant="subtle">
-          Example text link
-        </TextLink>
-      </Container>
+        <Container size="wide" className="relative pb-atmosphere">
+          <div className="max-w-2xl">
+            <h1 className="text-display text-limestone">
+              Your journey on the Maasplassen begins here.
+            </h1>
+            <TextLink href="#pillars" className="text-body-lg mt-component inline-block">
+              Explore the experiences ↓
+            </TextLink>
+          </div>
+        </Container>
+
+        {/* Required CC BY-SA 2.0 attribution — always visible, not
+            hover-to-reveal-only (can't legally gate it behind an
+            interaction). */}
+        <p className="text-caption relative px-6 pb-4 text-mist/65 tablet:px-12 tablet:text-right desktop:px-20">
+          Photo:{" "}
+          <TextLink
+            href="https://commons.wikimedia.org/wiki/File:Sunset_in_roermond.jpg"
+            variant="subtle"
+          >
+            Davy Landman, Wikimedia Commons
+          </TextLink>{" "}
+          —{" "}
+          <TextLink href="https://creativecommons.org/licenses/by-sa/2.0/" variant="subtle">
+            CC BY-SA 2.0
+          </TextLink>
+          . Modified.
+        </p>
+      </section>
+
+      {/* ---------- Four pillars ---------- */}
+      <section
+        id="pillars"
+        aria-labelledby="pillars-heading"
+        className="relative bg-deep-water py-group tablet:py-section"
+      >
+        <div
+          aria-hidden="true"
+          className="absolute inset-y-0 left-6 hidden w-px bg-mist/20 tablet:left-12 tablet:block desktop:left-20"
+        />
+        <Container size="wide" className="flex flex-col gap-hairline">
+          <Eyebrow>The experiences</Eyebrow>
+          <h2 id="pillars-heading" className="text-h2 max-w-2xl text-limestone">
+            Four directions, one current.
+          </h2>
+        </Container>
+
+        <Container size="wide" className="mt-section flex flex-col">
+          <Pillar name="Escapes" tagline="Slow down." href="/experiences" />
+          <Pillar
+            name="Explore"
+            tagline="Go further."
+            href="/experiences"
+            className="mt-group tablet:ml-16 tablet:mt-section"
+          />
+          {/* Private gets a larger gap at every width, not just tablet+ —
+              varied vertical spacing is the pillars' visual differentiator
+              on mobile (no horizontal offset room there), so it needs to
+              actually vary at the mobile breakpoint too, not only above it. */}
+          <Pillar
+            name="Private"
+            tagline="Make it yours."
+            href="/experiences"
+            className="mt-section tablet:ml-8 tablet:mt-atmosphere"
+          />
+          <Pillar
+            name="Gather"
+            tagline="Bring people together."
+            href="/experiences"
+            className="mt-group tablet:ml-24 tablet:mt-section"
+          />
+        </Container>
+      </section>
+
+      {/* ---------- The Maasplassen ---------- */}
+      <section aria-labelledby="maasplassen-heading" className="bg-maas py-group tablet:py-section">
+        <Container size="wide">
+          <div className="max-w-[65ch]">
+            <Eyebrow>The Maasplassen</Eyebrow>
+            <h2 id="maasplassen-heading" className="text-h2 mt-hairline text-limestone">
+              Where the water meets.
+            </h2>
+            <p className="text-body-lg mt-content text-mist">
+              Roermond sits where the Roer flows into the Maas — a confluence that widened, over
+              time, into the Maasplassen: a landscape of open water, quiet inlets, and shoreline
+              that rewards a slower pace.
+            </p>
+            <TextLink href="/maasplassen" variant="subtle" className="text-body mt-component inline-block">
+              Discover the Maasplassen
+            </TextLink>
+          </div>
+        </Container>
+      </section>
+
+      {/* ---------- RUNAVERA story ---------- */}
+      <section aria-labelledby="story-heading" className="bg-limestone py-group tablet:py-section">
+        <Container size="measure">
+          <h2 id="story-heading" className="text-h2 text-deep-water">
+            Born where two waters meet.
+          </h2>
+          <p className="text-body-lg mt-content text-maas">
+            RUNAVERA began with a simple observation: the best moments happen along the way, not
+            only at the destination. We build experiences around that idea — unhurried,
+            intentional, and rooted in Roermond&rsquo;s own rivers.
+          </p>
+        </Container>
+      </section>
+
+      {/* ---------- Closing CTA ---------- */}
+      <section aria-labelledby="cta-heading" className="bg-deep-water py-group tablet:py-section">
+        <Container size="wide" className="flex flex-col items-start gap-content">
+          <h2 id="cta-heading" className="text-h3 max-w-[65ch] text-limestone">
+            {/* text-h3 is a visual-weight choice only — kept a semantic H2
+                so the closing CTA stays a peer of Maasplassen/Story in the
+                heading hierarchy, not a demoted subsection. */}
+            When you&rsquo;re ready, we&rsquo;re here to help you plan it.
+          </h2>
+          <Button variant="secondary" href="/plan">
+            Plan your experience
+          </Button>
+        </Container>
+      </section>
     </main>
   );
 }
 
-// Arrival renders in-flow, before the placeholder in DOM order — never a
+// Arrival renders in-flow, before the homepage in DOM order — never a
 // replacement for it. A returning visitor (cookie present) never gets
 // <Arrival> in the DOM at all: zero flash. A first-time visitor gets both,
-// stacked — Arrival collapses itself on exit, and the placeholder (already
+// stacked — Arrival collapses itself on exit, and the homepage (already
 // present) is what's left. This also means a no-JS visitor can always
 // scroll past Arrival or use the skip-to-content link to reach it directly.
 export default async function Home() {
@@ -64,7 +175,7 @@ export default async function Home() {
   return (
     <>
       {!hasArrived && <Arrival />}
-      <FoundationPlaceholder />
+      <HomePage />
     </>
   );
 }
