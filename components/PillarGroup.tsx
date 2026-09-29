@@ -3,43 +3,22 @@
 import { startTransition, useState } from "react";
 
 import { Pillar } from "@/components/Pillar";
+import { pillars } from "@/lib/pillars";
 
-interface PillarData {
-  name: string;
-  slug: string;
-  tagline: string;
-  href: string;
-  className?: string;
-}
-
-const pillars: PillarData[] = [
-  { name: "Escapes", slug: "escapes", tagline: "Slow down.", href: "/experiences" },
-  {
-    name: "Explore",
-    slug: "explore",
-    tagline: "Go further.",
-    href: "/experiences",
-    className: "mt-group tablet:ml-16 tablet:mt-section",
-  },
-  // Private gets a larger gap at every width, not just tablet+ — varied
-  // vertical spacing is the pillars' visual differentiator on mobile (no
-  // horizontal offset room there), so it needs to actually vary at the
-  // mobile breakpoint too, not only above it.
-  {
-    name: "Private",
-    slug: "private",
-    tagline: "Make it yours.",
-    href: "/experiences",
-    className: "mt-section tablet:ml-8 tablet:mt-atmosphere",
-  },
-  {
-    name: "Gather",
-    slug: "gather",
-    tagline: "Bring people together.",
-    href: "/experiences",
-    className: "mt-group tablet:ml-24 tablet:mt-section",
-  },
-];
+// Homepage-only composition detail — each pillar's horizontal/vertical
+// offset within the asymmetric layout (see CLAUDE.md's Homepage section).
+// Not pillar *content*, so it stays local here rather than in the shared
+// lib/pillars.ts data both this component and the detail pages consume.
+//
+// Private gets a larger gap at every width, not just tablet+ — varied
+// vertical spacing is the pillars' visual differentiator on mobile (no
+// horizontal offset room there), so it needs to actually vary at the
+// mobile breakpoint too, not only above it.
+const layoutClassNames: Record<string, string> = {
+  explore: "mt-group tablet:ml-16 tablet:mt-section",
+  private: "mt-section tablet:ml-8 tablet:mt-atmosphere",
+  gather: "mt-group tablet:ml-24 tablet:mt-section",
+};
 
 /**
  * Owns which pillar is currently chosen. Lifted here because app/page.tsx is
@@ -65,7 +44,11 @@ export function PillarGroup() {
       {pillars.map((pillar) => (
         <Pillar
           key={pillar.slug}
-          {...pillar}
+          name={pillar.name}
+          slug={pillar.slug}
+          tagline={pillar.tagline}
+          href={`/experiences/${pillar.slug}`}
+          className={layoutClassNames[pillar.slug]}
           isChosen={selectedSlug === pillar.slug}
           isDimmed={selectedSlug !== null && selectedSlug !== pillar.slug}
           onChoose={() => startTransition(() => setSelectedSlug(pillar.slug))}

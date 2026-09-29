@@ -15,13 +15,18 @@ export type HeaderTheme = "dark" | "light" | "transparent-media";
 interface HeaderProps {
   /**
    * Explicit, page-declared theme for the header's "at rest" (not scrolled)
-   * appearance — NOT auto-detected. Whoever renders Header sets this.
+   * appearance — the default value, supplied by whoever renders Header.
    *
-   * Deliberately not a generalized IntersectionObserver-based section-theme
-   * engine: no page has real editorial/cinematic sections yet that would
-   * justify one. This prop is the "clear, maintainable theme/state API"
-   * instead — automatic section observation is worth evaluating once real
-   * sections exist (see CLAUDE.md), not built speculatively now.
+   * One narrow, named exception (Phase 7): `/experiences` and its detail
+   * routes force `dark` regardless of this prop, since those pages have no
+   * photography for `transparent-media`'s scrim to justify — see the
+   * `pathname` check below and CLAUDE.md's Navigation section. This is a
+   * fixed, explicit route check, not a generalized theme engine: still NOT
+   * auto-detected in the IntersectionObserver/scroll-position sense — no
+   * page has real editorial/cinematic sections yet that would justify that
+   * (see CLAUDE.md). If a third distinct page-background need appears
+   * later, that's the point to build the real per-page mechanism Phase 5
+   * deferred, not to keep appending routes here.
    */
   theme?: HeaderTheme;
   /**
@@ -60,7 +65,7 @@ function useIsScrolled(threshold: number) {
   return isScrolled;
 }
 
-export function Header({ theme = "dark", suppressed: initialSuppressed = false }: HeaderProps) {
+export function Header({ theme: themeProp = "dark", suppressed: initialSuppressed = false }: HeaderProps) {
   const [suppressedState, setSuppressed] = useState(initialSuppressed);
   const pathname = usePathname();
   // Arrival only ever renders at "/" — nothing would ever dispatch
@@ -70,6 +75,13 @@ export function Header({ theme = "dark", suppressed: initialSuppressed = false }
   // so this also stays correct across client-side App Router navigation
   // without needing to re-derive `initialSuppressed`.
   const suppressed = pathname === "/" && suppressedState;
+  // Phase 7 exception (see the `theme` prop doc above): `/experiences` and
+  // its detail routes force `dark`, overriding whatever the page renderer
+  // passed. The exact `===`/`startsWith("/experiences/")` pair — not a bare
+  // `startsWith("/experiences")` — deliberately excludes an unrelated
+  // future route like `/experiences-extra`.
+  const isExperiencesRoute = pathname === "/experiences" || pathname.startsWith("/experiences/");
+  const theme = isExperiencesRoute ? "dark" : themeProp;
   const isScrolled = useIsScrolled(SCROLL_THRESHOLD);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
