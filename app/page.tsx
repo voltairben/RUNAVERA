@@ -5,7 +5,7 @@ import { Arrival } from "@/components/Arrival";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
-import { Pillar } from "@/components/Pillar";
+import { PillarGroup } from "@/components/PillarGroup";
 import { TextLink } from "@/components/TextLink";
 import { ARRIVAL_COOKIE_NAME } from "@/lib/arrival-cookie";
 
@@ -84,29 +84,7 @@ function HomePage() {
         </Container>
 
         <Container size="wide" className="mt-section flex flex-col">
-          <Pillar name="Escapes" tagline="Slow down." href="/experiences" />
-          <Pillar
-            name="Explore"
-            tagline="Go further."
-            href="/experiences"
-            className="mt-group tablet:ml-16 tablet:mt-section"
-          />
-          {/* Private gets a larger gap at every width, not just tablet+ —
-              varied vertical spacing is the pillars' visual differentiator
-              on mobile (no horizontal offset room there), so it needs to
-              actually vary at the mobile breakpoint too, not only above it. */}
-          <Pillar
-            name="Private"
-            tagline="Make it yours."
-            href="/experiences"
-            className="mt-section tablet:ml-8 tablet:mt-atmosphere"
-          />
-          <Pillar
-            name="Gather"
-            tagline="Bring people together."
-            href="/experiences"
-            className="mt-group tablet:ml-24 tablet:mt-section"
-          />
+          <PillarGroup />
         </Container>
       </section>
 

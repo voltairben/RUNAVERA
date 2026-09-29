@@ -239,4 +239,17 @@ body {
     transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* View Transition pseudo-elements (Phase 6) live in a separate
+     pseudo-element tree the `*` selector above never reaches — confirmed
+     against Next.js's own reduced-motion guidance in
+     node_modules/next/dist/docs/01-app/02-guides/view-transitions.md.
+     Same 0.01ms/0ms units as above, not the doc's literal 0s, to stay
+     consistent with the rule this one sits beside. */
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
 }

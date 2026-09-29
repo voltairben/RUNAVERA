@@ -1,0 +1,44 @@
+RUNAVERA — PROJECT ROADMAP AND STATUS
+
+FOUNDATION & EXPERIENCE
+
+| Phase | Focus                                      | Status                 |
+|------:|--------------------------------------------|------------------------|
+| 0     | Discovery & project intelligence           | COMPLETE               |
+| 1     | Design system foundation                   | COMPLETE               |
+| 2     | Design-system architecture & visual language | COMPLETE             |
+| 3     | UX architecture & navigation               | COMPLETE               |
+| 4     | Arrival experience                         | COMPLETE               |
+| 5     | Pillar interaction / main homepage         | COMPLETE               |
+| 6     | Pillar transitions & flow                  | CURRENT — PLAN ONLY     |
+| 7     | Experience detail pages                    | NOT STARTED             |
+| 8     | Maasplassen story                          | NOT STARTED             |
+| 9     | Brand story / About                        | NOT STARTED             |
+| 10    | Planning / conversion experience           | NOT STARTED             |
+
+STRUCTURE & PLATFORM
+
+| Phase | Focus                                      | Status     |
+|------:|--------------------------------------------|------------|
+| 11    | Navigation refinement                     | NOT STARTED |
+| 12    | Mobile experience                         | NOT STARTED |
+| 13    | EN / NL / DE internationalisation         | NOT STARTED |
+| 14    | Motion system & transitions               | NOT STARTED |
+| 15    | Frontend implementation refinement        | NOT STARTED |
+| 16    | Backend / data architecture               | NOT STARTED |
+| 17    | Security                                   | NOT STARTED |
+
+QUALITY & LAUNCH
+
+| Phase | Focus                                      | Status     |
+|------:|--------------------------------------------|------------|
+| 18    | Reality Checker passes                    | NOT STARTED |
+| 19    | Functional testing                        | NOT STARTED |
+| 20    | Responsive verification                   | NOT STARTED |
+| 21    | Accessibility                              | NOT STARTED |
+| 22    | Performance optimisation                  | NOT STARTED |
+| 23    | SEO                                        | NOT STARTED |
+| 24    | Final security review                     | NOT STARTED |
+| 25    | CodeRabbit / PR review                    | NOT STARTED |
+| 26    | Final visual / UX review                  | NOT STARTED |
+
