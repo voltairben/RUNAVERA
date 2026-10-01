@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef } from "react";
+import { useTranslations } from "next-intl";
 
 interface MenuButtonProps {
   isOpen: boolean;
@@ -14,6 +15,8 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(functio
   { isOpen, onClick, controlsId },
   ref
 ) {
+  const t = useTranslations("MenuButton");
+
   return (
     <button
       ref={ref}
@@ -21,7 +24,7 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(functio
       onClick={onClick}
       aria-expanded={isOpen}
       aria-controls={controlsId}
-      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-label={isOpen ? t("closeMenu") : t("openMenu")}
       className="flex h-11 w-11 items-center justify-center text-mist transition-colors duration-200 hover:text-sunset focus-visible:text-sunset tablet:hidden"
     >
       <span className="flex h-4 w-6 flex-col justify-between">

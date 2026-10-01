@@ -1,4 +1,6 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ComponentProps, ReactNode } from "react";
+
+import { Link } from "@/i18n/navigation";
 
 type ButtonVariant = "primary" | "secondary";
 
@@ -12,7 +14,7 @@ type ButtonAsButton = ButtonBaseProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBaseProps> & { href?: undefined };
 
 type ButtonAsLink = ButtonBaseProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonBaseProps> & { href: string };
+  Omit<ComponentProps<typeof Link>, keyof ButtonBaseProps | "href"> & { href: string };
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
@@ -27,14 +29,19 @@ const variantStyles: Record<ButtonVariant, string> = {
   secondary: "border border-mist text-limestone hover:border-sunset hover:text-sunset",
 };
 
+// Anchor branch renders through next-intl's `Link` (`i18n/navigation.ts`)
+// rather than a bare `<a>` — Phase 13's locale-aware internal navigation
+// fix, same mechanism as TextLink. The `<button>` branch (no href) is
+// unaffected.
 export function Button({ variant = "primary", className, children, href, ...props }: ButtonProps) {
   const classes = [baseStyles, variantStyles[variant], className].filter(Boolean).join(" ");
 
   if (href !== undefined) {
+    const linkProps = props as Omit<ComponentProps<typeof Link>, "href">;
     return (
-      <a href={href} className={classes} {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}>
+      <Link href={href} className={classes} {...linkProps}>
         {children}
-      </a>
+      </Link>
     );
   }
 

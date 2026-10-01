@@ -21,8 +21,8 @@ STRUCTURE & PLATFORM
 | Phase | Focus                                      | Status     |
 |------:|--------------------------------------------|------------|
 | 11    | Navigation refinement                     | COMPLETE |
-| 12    | Mobile experience                         | NEXT — NOT STARTED |
-| 13    | EN / NL / DE internationalisation         | NOT STARTED |
+| 12    | Mobile experience                         | MERGED INTO PHASE 20 |
+| 13    | EN / NL / DE internationalisation         | COMPLETE |
 | 14    | Motion system & transitions               | NOT STARTED |
 | 15    | Frontend implementation refinement        | NOT STARTED |
 | 16    | Backend / data architecture               | NOT STARTED |
@@ -34,7 +34,7 @@ QUALITY & LAUNCH
 |------:|--------------------------------------------|------------|
 | 18    | Reality Checker passes                    | NOT STARTED |
 | 19    | Functional testing                        | NOT STARTED |
-| 20    | Responsive verification                   | NOT STARTED |
+| 20    | Mobile experience and responsive verification | NOT STARTED |
 | 21    | Accessibility                              | NOT STARTED |
 | 22    | Performance optimisation                  | NOT STARTED |
 | 23    | SEO                                        | NOT STARTED |
@@ -42,5 +42,5 @@ QUALITY & LAUNCH
 | 25    | CodeRabbit / PR review                    | NOT STARTED |
 | 26    | Final visual / UX review                  | NOT STARTED |
 
-Current position: Phase 11 is complete. Phase 12 is the next planned phase and has not started. Phases 0–10 are also complete, as recorded above. Do not begin Phase 12 or later work until the phase is explicitly approved in the conversation.
+Current position: Phase 13 (EN / NL / DE internationalisation) is complete — Dutch/German copy is a first draft, pending review. Phase 12 (Mobile experience) remains merged into Phase 20, "Mobile experience and responsive verification" — still future work, not complete. Phases 0–13 are complete, as recorded above. Do not begin Phase 14 or later work until explicitly approved in the conversation.
 

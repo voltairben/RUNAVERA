@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Current } from "@/components/Current";
 import { Logo } from "@/components/Logo";
@@ -34,6 +35,8 @@ const EXIT_DURATION_MS = 1000;
  * steal focus from the existing Phase 3 skip-to-content link.
  */
 export function Arrival() {
+  const t = useTranslations("Arrival");
+  const tLogo = useTranslations("Logo");
   const [isExiting, setIsExiting] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const hasExitedRef = useRef(false);
@@ -104,6 +107,7 @@ export function Arrival() {
         <Logo
           variant="primary"
           priority
+          alt={tLogo("alt")}
           style={{ animation: "arrival-fade-in 500ms ease-out both" }}
           className={[
             "h-[clamp(140px,34vw,200px)] w-[clamp(140px,34vw,200px)] object-contain",
@@ -116,7 +120,7 @@ export function Arrival() {
           style={{ animation: "arrival-fade-in 500ms ease-out 950ms both" }}
           className="text-display mt-[6vh] text-center text-limestone tablet:mt-[8vh]"
         >
-          Move beyond the Maas &amp; Roer.
+          {t("tagline")}
         </p>
       </div>
 
@@ -130,7 +134,7 @@ export function Arrival() {
         onClick={exit}
         className="text-nav absolute bottom-10 left-1/2 -translate-x-1/2 text-mist underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:text-sunset hover:decoration-current focus-visible:text-sunset"
       >
-        Enter RUNAVERA
+        {t("enter")}
       </button>
     </div>
   );

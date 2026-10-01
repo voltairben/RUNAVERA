@@ -1,9 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { usePathname } from "next/navigation";
 
 import { TextLink } from "@/components/TextLink";
+import { usePathname } from "@/i18n/navigation";
 
 interface NavLinkProps {
   href: string;
@@ -19,13 +19,17 @@ interface NavLinkProps {
  *
  * Uses TextLink's `default` variant (Limestone → Sunset on hover) rather
  * than the Phase 3 plan's literal "Mist default" — nav links are primary
- * wayfinding UI, not secondary/muted detail text, so Limestone (the primary
- * text-on-dark token) reads better here. Noted as a deliberate deviation
+ * wayfinding UI, not secondary/muted detail text. A deliberate deviation
  * from the plan text, not a silent change.
  *
  * Active-state color comes from the global `[aria-current="page"]` rule in
  * globals.css, not a per-component override — avoids depending on Tailwind
  * utility ordering to beat TextLink's own color class.
+ *
+ * `usePathname` comes from `i18n/navigation.ts` (next-intl), not
+ * `next/navigation` — it returns the locale-stripped pathname, so this
+ * comparison against `lib/navigation.ts`'s locale-agnostic `href` values
+ * keeps working unchanged across `/`, `/nl`, `/de` (Phase 13).
  */
 export function NavLink({ href, children, onClick }: NavLinkProps) {
   const pathname = usePathname();

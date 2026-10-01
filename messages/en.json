@@ -1,0 +1,117 @@
+{
+  "Layout": {
+    "skipToContent": "Skip to content",
+    "metadataTitle": "RUNAVERA — Roermond, Limburg",
+    "metadataDescription": "RUNAVERA — premium water-based experiences on the Roer, Maas and Maasplassen, Roermond."
+  },
+  "Nav": {
+    "experiences": "Experiences",
+    "maasplassen": "The Maasplassen",
+    "about": "About",
+    "planCta": "Plan your experience"
+  },
+  "MobileNav": {
+    "dialogLabel": "Site navigation"
+  },
+  "MenuButton": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "LanguageSwitcher": {
+    "label": "Language"
+  },
+  "Arrival": {
+    "tagline": "Move beyond the Maas & Roer.",
+    "enter": "Enter RUNAVERA"
+  },
+  "Logo": {
+    "alt": "RUNAVERA — Roermond, Limburg"
+  },
+  "Common": {
+    "backLink": "← Back to Runavera",
+    "ctaEyebrow": "Next step",
+    "ctaHeading": "When you’re ready, we’re here to help you plan it.",
+    "ctaButton": "Plan your experience"
+  },
+  "Pillars": {
+    "discover": "Discover {name}",
+    "escapes": {
+      "name": "Escapes",
+      "tagline": "Slow down.",
+      "description": "An escape asks for nothing but your attention. We set the pace by the water itself — a slower rhythm, a longer look at the horizon, a place to let the day settle."
+    },
+    "explore": {
+      "name": "Explore",
+      "tagline": "Go further.",
+      "description": "The Maasplassen reward the curious. Beyond the open water, quiet inlets and shoreline paths unfold for those willing to go a little further than the obvious route."
+    },
+    "private": {
+      "name": "Private",
+      "tagline": "Make it yours.",
+      "description": "Some moments are meant for a smaller circle. We shape private experiences around the people you bring — the pace, the setting, and the company all your own."
+    },
+    "gather": {
+      "name": "Gather",
+      "tagline": "Bring people together.",
+      "description": "The best gatherings happen where there's room to spread out and something to look at together. We build around groups who want the water as their backdrop."
+    }
+  },
+  "Home": {
+    "heroAlt": "A warm golden sunset over a calm river near Roermond, with a grassy, wildflower-lined bank in the foreground and a tree-lined horizon reflected in the water.",
+    "heroHeading": "Your journey on the Maasplassen begins here.",
+    "exploreCue": "Explore the experiences ↓",
+    "heroAttributionPhoto": "Photo:",
+    "heroAttributionModified": "Modified.",
+    "pillarsEyebrow": "The experiences",
+    "pillarsHeading": "Four directions, one current.",
+    "maasplassenEyebrow": "The Maasplassen",
+    "maasplassenHeading": "Where the water meets.",
+    "maasplassenBody": "Roermond sits where the Roer flows into the Maas — a confluence that widened, over time, into the Maasplassen: a landscape of open water, quiet inlets, and shoreline that rewards a slower pace.",
+    "maasplassenLink": "Discover the Maasplassen",
+    "storyHeading": "Born where two waters meet.",
+    "storyBody": "RUNAVERA began with a simple observation: the best moments happen along the way, not only at the destination. We build experiences around that idea — unhurried, intentional, and rooted in Roermond’s own rivers."
+  },
+  "Experiences": {
+    "eyebrow": "The experiences",
+    "heading": "Four directions, one current.",
+    "intro": "Each pillar is its own way into the Maasplassen. Choose the one that fits."
+  },
+  "Maasplassen": {
+    "bannerAlt": "The Maasplassen lake system at Kinrooi, Belgium: open water bordered by low green banks under a wide sky.",
+    "attributionBy": "by",
+    "attributionCropped": "Cropped.",
+    "eyebrow": "The Maasplassen",
+    "heading": "The Maasplassen",
+    "body1": "Where the water meets: a confluence that widened, over time, into a landscape of open water, quiet inlets, and shoreline that rewards a slower pace.",
+    "body2": "The Maasplassen didn’t begin as a destination. Much of it took shape from decades of sand and gravel extraction along the Maas, gradually flooding into the connected lakes that now stretch across the Limburg border into Belgium. What was once industrial became, gradually and almost by accident, one of the largest open-water landscapes in the Netherlands.",
+    "body3": "Roermond sits at one edge of it, where the Roer meets the Maas — but the Maasplassen itself has no single center. It unfolds differently from every shoreline: open and wind-exposed in some stretches, sheltered and still in others, always shaped by the water rather than against it.",
+    "body4": "That variety is the reason RUNAVERA is built around it rather than around any one place within it. The Maasplassen sets the pace — our experiences follow."
+  },
+  "About": {
+    "heading": "Luxury on the water, at your own pace",
+    "intro1": "RUNAVERA brings people onto the water through luxury boat rentals, guided outings, and private charters on the Maas and Roer. Whether you’re exploring the Maasplassen, celebrating with friends, or finding a quieter rhythm on the river, there’s room to make the experience your own.",
+    "intro2": "From parties and gatherings aboard to unhurried time surrounded by water and open landscape, RUNAVERA makes the boat part of the occasion and the journey part of the destination.",
+    "intro3": "Inspired by Roermond, where the Roer meets the Maas, RUNAVERA invites you to see familiar waters differently: with more freedom, more comfort, and space to truly unwind.",
+    "ideaHeading": "The idea behind RUNAVERA",
+    "idea1": "Inspired by the meeting of the Maas and Roer, RUNAVERA imagines a more personal way to experience the water around Roermond.",
+    "idea2": "The concept brings together luxury boat rentals, guided outings, private charters, and celebrations on the water. Some days call for exploring the Maasplassen with friends. Others call for a quiet stretch of river and time to slow down.",
+    "idea3": "However you choose to spend the day, the water sets the pace. RUNAVERA is about making room for both the occasion and the tranquillity along the way."
+  },
+  "Plan": {
+    "heading": "Plan your experience",
+    "framing": "Four directions, one current — choose where today takes you.",
+    "pillarsEyebrow": "The experiences",
+    "pillarsHeading": "Four directions, one current.",
+    "closing": "However you choose to spend the day, the water sets the pace."
+  },
+  "NotFound": {
+    "heading": "Page not found",
+    "body": "The page you’re looking for doesn’t exist.",
+    "homeLink": "Return home"
+  },
+  "Error": {
+    "heading": "Something went wrong",
+    "body": "An unexpected error occurred. Please try again.",
+    "retry": "Try again"
+  }
+}

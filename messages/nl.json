@@ -1,0 +1,117 @@
+{
+  "Layout": {
+    "skipToContent": "Naar de inhoud",
+    "metadataTitle": "RUNAVERA — Roermond, Limburg",
+    "metadataDescription": "RUNAVERA — exclusieve belevenissen op het water, op de Roer, Maas en Maasplassen bij Roermond."
+  },
+  "Nav": {
+    "experiences": "Ervaringen",
+    "maasplassen": "De Maasplassen",
+    "about": "Over RUNAVERA",
+    "planCta": "Plan je ervaring"
+  },
+  "MobileNav": {
+    "dialogLabel": "Sitenavigatie"
+  },
+  "MenuButton": {
+    "openMenu": "Menu openen",
+    "closeMenu": "Menu sluiten"
+  },
+  "LanguageSwitcher": {
+    "label": "Taal"
+  },
+  "Arrival": {
+    "tagline": "Verder dan de Maas & Roer.",
+    "enter": "Ontdek RUNAVERA"
+  },
+  "Logo": {
+    "alt": "RUNAVERA — Roermond, Limburg"
+  },
+  "Common": {
+    "backLink": "← Terug naar Runavera",
+    "ctaEyebrow": "Volgende stap",
+    "ctaHeading": "Wanneer je zover bent, helpen we je graag met plannen.",
+    "ctaButton": "Plan je ervaring"
+  },
+  "Pillars": {
+    "discover": "Ontdek {name}",
+    "escapes": {
+      "name": "Ontsnappen",
+      "tagline": "Vertraag.",
+      "description": "Ontsnappen vraagt om niets anders dan je aandacht. Het water bepaalt het tempo — een rustiger ritme, een langere blik op de horizon, een plek waar de dag tot rust komt."
+    },
+    "explore": {
+      "name": "Ontdekken",
+      "tagline": "Ga verder.",
+      "description": "De Maasplassen belonen de nieuwsgierige. Voorbij het open water liggen stille inhammen en oeverpaden voor wie net iets verder wil gaan dan de voor de hand liggende route."
+    },
+    "private": {
+      "name": "Privé",
+      "tagline": "Maak het van jou.",
+      "description": "Sommige momenten zijn bedoeld voor een kleinere kring. We stemmen privé-ervaringen af op de mensen die je meeneemt — het tempo, de setting en het gezelschap helemaal naar jouw hand."
+    },
+    "gather": {
+      "name": "Samenkomen",
+      "tagline": "Breng mensen samen.",
+      "description": "De beste bijeenkomsten ontstaan waar ruimte is om uit te waaieren en iets te zien dat je samen bekijkt. We bouwen rond groepen die het water als decor willen."
+    }
+  },
+  "Home": {
+    "heroAlt": "Een warme gouden zonsondergang boven een rustige rivier bij Roermond, met een grasveld vol wilde bloemen op de voorgrond en een met bomen omzoomde horizon die weerspiegelt in het water.",
+    "heroHeading": "Jouw reis op de Maasplassen begint hier.",
+    "exploreCue": "Ontdek de ervaringen ↓",
+    "heroAttributionPhoto": "Foto:",
+    "heroAttributionModified": "Bewerkt.",
+    "pillarsEyebrow": "De ervaringen",
+    "pillarsHeading": "Vier richtingen, één stroming.",
+    "maasplassenEyebrow": "De Maasplassen",
+    "maasplassenHeading": "Waar het water samenkomt.",
+    "maasplassenBody": "Roermond ligt waar de Roer in de Maas uitmondt — een samenvloeiing die in de loop van de tijd uitgroeide tot de Maasplassen: een landschap van open water, stille inhammen en oevers die een rustiger tempo belonen.",
+    "maasplassenLink": "Ontdek de Maasplassen",
+    "storyHeading": "Geboren waar twee wateren samenkomen.",
+    "storyBody": "RUNAVERA begon met een simpele observatie: de mooiste momenten gebeuren onderweg, niet alleen op de bestemming. We bouwen ervaringen rond dat idee — ongehaast, doelgericht en geworteld in de rivieren van Roermond zelf."
+  },
+  "Experiences": {
+    "eyebrow": "De ervaringen",
+    "heading": "Vier richtingen, één stroming.",
+    "intro": "Elke pijler is een eigen manier om de Maasplassen te ontdekken. Kies wat bij je past."
+  },
+  "Maasplassen": {
+    "bannerAlt": "Het Maasplassengebied bij Kinrooi, België: open water omzoomd door lage groene oevers onder een wijde lucht.",
+    "attributionBy": "door",
+    "attributionCropped": "Bijgesneden.",
+    "eyebrow": "De Maasplassen",
+    "heading": "De Maasplassen",
+    "body1": "Waar het water samenkomt: een samenvloeiing die in de loop van de tijd uitgroeide tot een landschap van open water, stille inhammen en oevers die een rustiger tempo belonen.",
+    "body2": "De Maasplassen begonnen niet als bestemming. Een groot deel ontstond door decennia van zand- en grindwinning langs de Maas, die geleidelijk onderliepen tot de aaneengesloten plassen die nu over de Limburgse grens tot in België reiken. Wat ooit industrieel was, werd geleidelijk en haast per ongeluk een van de grootste open-waterlandschappen van Nederland.",
+    "body3": "Roermond ligt aan de rand ervan, waar de Roer de Maas ontmoet — maar de Maasplassen zelf hebben geen enkel middelpunt. Vanaf elke oever onthult het gebied zich anders: open en winderig op het ene stuk, beschut en stil op het andere, altijd gevormd door het water in plaats van ertegen.",
+    "body4": "Die verscheidenheid is de reden dat RUNAVERA eromheen is gebouwd, niet rond één enkele plek erbinnen. De Maasplassen bepalen het tempo — onze ervaringen volgen."
+  },
+  "About": {
+    "heading": "Luxe op het water, op jouw tempo",
+    "intro1": "RUNAVERA brengt mensen het water op via luxe bootverhuur, begeleide tochten en privécharters op de Maas en de Roer. Of je nu de Maasplassen verkent, feest met vrienden, of een rustiger ritme op de rivier zoekt — er is ruimte om de ervaring helemaal naar jouw hand te zetten.",
+    "intro2": "Van feesten en bijeenkomsten aan boord tot ongehaaste tijd omringd door water en open landschap: bij RUNAVERA wordt de boot onderdeel van de gelegenheid en de tocht onderdeel van de bestemming.",
+    "intro3": "Geïnspireerd door Roermond, waar de Roer de Maas ontmoet, nodigt RUNAVERA je uit om vertrouwd water anders te zien: met meer vrijheid, meer comfort en ruimte om echt tot rust te komen.",
+    "ideaHeading": "Het idee achter RUNAVERA",
+    "idea1": "Geïnspireerd door de samenkomst van Maas en Roer bedenkt RUNAVERA een persoonlijkere manier om het water rond Roermond te beleven.",
+    "idea2": "Het concept brengt luxe bootverhuur, begeleide tochten, privécharters en feesten op het water samen. Sommige dagen vragen om de Maasplassen te verkennen met vrienden. Andere vragen om een stil stuk rivier en tijd om te vertragen.",
+    "idea3": "Hoe je de dag ook doorbrengt, het water bepaalt het tempo. Bij RUNAVERA gaat het om ruimte maken voor zowel de gelegenheid als de rust onderweg."
+  },
+  "Plan": {
+    "heading": "Plan je ervaring",
+    "framing": "Vier richtingen, één stroming — kies waar vandaag je heen brengt.",
+    "pillarsEyebrow": "De ervaringen",
+    "pillarsHeading": "Vier richtingen, één stroming.",
+    "closing": "Hoe je de dag ook doorbrengt, het water bepaalt het tempo."
+  },
+  "NotFound": {
+    "heading": "Pagina niet gevonden",
+    "body": "De pagina die je zoekt bestaat niet.",
+    "homeLink": "Terug naar home"
+  },
+  "Error": {
+    "heading": "Er is iets misgegaan",
+    "body": "Er is een onverwachte fout opgetreden. Probeer het opnieuw.",
+    "retry": "Opnieuw proberen"
+  }
+}

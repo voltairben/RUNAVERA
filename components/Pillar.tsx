@@ -1,7 +1,10 @@
 "use client";
 
-import Link, { useLinkStatus } from "next/link";
+import { useLinkStatus } from "next/link";
+import { useTranslations } from "next-intl";
 import { ViewTransition } from "react";
+
+import { Link } from "@/i18n/navigation";
 
 interface PillarProps {
   name: string;
@@ -23,24 +26,27 @@ interface PillarProps {
  */
 function PillarLinkLabel({ name }: { name: string }) {
   const { pending } = useLinkStatus();
-  return <span className={pending ? "text-sunset" : undefined}>Discover {name}</span>;
+  const t = useTranslations("Pillars");
+  return <span className={pending ? "text-sunset" : undefined}>{t("discover", { name })}</span>;
 }
 
 /**
  * One of the four experience directions (Escapes/Explore/Private/Gather).
  * `isChosen`/`isDimmed`/`onChoose` are lifted into PillarGroup (a client
- * component — the Server Components that render it, app/page.tsx and
- * app/plan/page.tsx, can't hold state themselves). `name` renders as an
- * <h3> — nested under a pillars section's own <h2>, which whichever page
- * renders `PillarGroup` is responsible for providing (see app/page.tsx and
- * app/plan/page.tsx) — decoupled from that semantic level like every other
- * heading in this project.
+ * component — the Server Components that render it, app/[locale]/page.tsx
+ * and app/[locale]/plan/page.tsx, can't hold state themselves). `name`
+ * renders as an <h3> — nested under a pillars section's own <h2>, which
+ * whichever page renders `PillarGroup` is responsible for providing —
+ * decoupled from that semantic level like every other heading in this
+ * project.
  *
- * The CTA renders `next/link`'s `<Link>` instead of `TextLink` — the one
+ * The CTA renders `i18n/navigation.ts`'s locale-aware `Link` (next-intl's
+ * wrapper around `next/link`'s `Link`) instead of `TextLink` — the one
  * scoped exception in the site, so this navigation is eligible for a React
  * `<ViewTransition>`. Its visual classes are copied from TextLink's own
  * `default` variant rather than importing TextLink itself, since TextLink
- * always renders a plain `<a>` and isn't meant to change for this one case.
+ * always renders through the same `Link` primitive and isn't meant to
+ * change for this one case.
  */
 export function Pillar({
   name,
@@ -88,9 +94,8 @@ export function Pillar({
       {/* Only the chosen pillar's heading ever carries a view-transition
           name — the other three stay unwrapped, so at most one exists in
           the tree at a time by construction (View Transitions require
-          uniqueness). Phase 7's real destination page is expected to give
-          its own matching heading this same `pillar-name-${slug}` value;
-          this phase can only build and verify the departure side. */}
+          uniqueness). The matching destination heading carries this same
+          `pillar-name-${slug}` value (see app/[locale]/experiences/[slug]/page.tsx). */}
       {isChosen ? (
         <ViewTransition name={`pillar-name-${slug}`}>{heading}</ViewTransition>
       ) : (

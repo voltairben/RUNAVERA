@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/Button";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { NavLink } from "@/components/NavLink";
 import { ctaNavItem, primaryNavItems } from "@/lib/navigation";
 
@@ -18,6 +20,8 @@ interface MobileNavProps {
 // visible and clickable while open.
 export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("Nav");
+  const tMobileNav = useTranslations("MobileNav");
 
   // Scroll lock while open.
   useEffect(() => {
@@ -67,7 +71,7 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
       tabIndex={-1}
       role="dialog"
       aria-modal="true"
-      aria-label="Site navigation"
+      aria-label={tMobileNav("dialogLabel")}
       hidden={!isOpen}
       className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-center gap-group bg-deep-water px-6 tablet:hidden"
     >
@@ -75,13 +79,14 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
         {primaryNavItems.map((item) => (
           <li key={item.href}>
             <NavLink href={item.href} onClick={onClose}>
-              {item.label}
+              {t(item.labelKey)}
             </NavLink>
           </li>
         ))}
       </ul>
+      <LanguageSwitcher onNavigate={onClose} />
       <Button variant="primary" href={ctaNavItem.href} onClick={onClose} className="w-full">
-        {ctaNavItem.label}
+        {t(ctaNavItem.labelKey)}
       </Button>
     </div>
   );

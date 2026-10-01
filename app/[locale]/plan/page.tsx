@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PillarGroup } from "@/components/PillarGroup";
@@ -10,18 +12,24 @@ import { TextLink } from "@/components/TextLink";
 // contact method, form, or booking flow exists here or anywhere on the
 // site — RUNAVERA has no backend; the real "conversion" is picking a real
 // /experiences/[slug] destination below.
-export default function PlanPage() {
+export default async function PlanPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Plan" });
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
+
   return (
     <main id="main-content" className="pt-header">
       <section className="bg-deep-water py-group tablet:py-section">
         <Container size="measure">
           <TextLink href="/" variant="subtle" className="text-body-sm inline-block">
-            ← Back to Runavera
+            {tCommon("backLink")}
           </TextLink>
-          <h1 className="text-display mt-component text-limestone">Plan your experience</h1>
-          <p className="text-body-lg mt-content text-mist">
-            Four directions, one current — choose where today takes you.
-          </p>
+          <h1 className="text-display mt-component text-limestone">{t("heading")}</h1>
+          <p className="text-body-lg mt-content text-mist">{t("framing")}</p>
         </Container>
       </section>
 
@@ -35,9 +43,9 @@ export default function PlanPage() {
           className="absolute inset-y-0 left-6 hidden w-px bg-mist/20 tablet:left-12 tablet:block desktop:left-20"
         />
         <Container size="wide" className="flex flex-col gap-hairline">
-          <Eyebrow>The experiences</Eyebrow>
+          <Eyebrow>{t("pillarsEyebrow")}</Eyebrow>
           <h2 id="plan-pillars-heading" className="text-h2 max-w-2xl text-limestone">
-            Four directions, one current.
+            {t("pillarsHeading")}
           </h2>
         </Container>
 
@@ -48,9 +56,7 @@ export default function PlanPage() {
 
       <section className="bg-deep-water pb-group tablet:pb-section">
         <Container size="measure">
-          <p className="text-body-lg text-mist">
-            However you choose to spend the day, the water sets the pace.
-          </p>
+          <p className="text-body-lg text-mist">{t("closing")}</p>
         </Container>
       </section>
     </main>

@@ -1,19 +1,21 @@
 export interface NavItem {
-  label: string;
+  /** Key within the "Nav" messages namespace (messages/{locale}.json). */
+  labelKey: string;
   href: string;
 }
 
 // Single source of truth for nav links — consumed by both DesktopNav and
-// MobileNav so they can't drift out of sync. Routes below don't exist yet
-// (Experience pages, About, Maasplassen, Plan are all future phases) — the
-// links are wired to their intended future paths on purpose.
+// MobileNav so they can't drift out of sync. `href`s stay locale-invariant
+// (locale-prefixing happens where they're rendered, via TextLink/Button's
+// next-intl `Link` — see Phase 13); labels are translation-key references,
+// not literal strings, resolved per locale in messages/{locale}.json.
 export const primaryNavItems: NavItem[] = [
-  { label: "Experiences", href: "/experiences" },
-  { label: "The Maasplassen", href: "/maasplassen" },
-  { label: "About", href: "/about" },
+  { labelKey: "experiences", href: "/experiences" },
+  { labelKey: "maasplassen", href: "/maasplassen" },
+  { labelKey: "about", href: "/about" },
 ];
 
 export const ctaNavItem: NavItem = {
-  label: "Plan your experience",
+  labelKey: "planCta",
   href: "/plan",
 };

@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/Container";
 import { DesktopNav } from "@/components/DesktopNav";
 import { Logo } from "@/components/Logo";
 import { MenuButton } from "@/components/MenuButton";
 import { MobileNav } from "@/components/MobileNav";
+import { usePathname } from "@/i18n/navigation";
 import { ARRIVAL_COMPLETE_EVENT } from "@/lib/arrival-events";
 
 export type HeaderTheme = "dark" | "light" | "transparent-media";
@@ -72,15 +73,20 @@ function useIsScrolled(threshold: number) {
 
 export function Header({ theme: themeProp = "dark", suppressed: initialSuppressed = false }: HeaderProps) {
   const [suppressedState, setSuppressed] = useState(initialSuppressed);
+  const t = useTranslations("Logo");
+  // `usePathname` comes from `i18n/navigation.ts` (next-intl) — it returns
+  // the locale-stripped pathname, so the homepage is always "/" regardless
+  // of which locale ("/", "/nl", "/de") is actually active (Phase 13). The
+  // checks below are unchanged as a result — no new per-locale branching.
   const pathname = usePathname();
-  // Arrival only ever renders at "/" — nothing would ever dispatch
+  // Arrival only ever renders at the homepage — nothing would ever dispatch
   // ARRIVAL_COMPLETE_EVENT to release a header that started suppressed on
   // any other route (e.g. a first-time visitor whose first hit is a direct
   // link to a future /experiences). `usePathname()` is live and reactive,
   // so this also stays correct across client-side App Router navigation
   // without needing to re-derive `initialSuppressed`.
   const suppressed = pathname === "/" && suppressedState;
-  // Phase 8 exception (see the `theme` prop doc above): "/" forces
+  // Phase 8 exception (see the `theme` prop doc above): the homepage forces
   // `transparent-media`, overriding whatever the page renderer passed.
   // Simpler than the check it replaces — "/" has no trailing-slash/prefix
   // ambiguity to guard against, unlike `/experiences` vs. `/experiences-extra`.
@@ -141,6 +147,7 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
         <Logo
           variant="primary"
           priority
+          alt={t("alt")}
           className={["object-contain transition-[height,width] duration-200", logoClasses].join(
             " "
           )}

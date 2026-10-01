@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 import { Arrival } from "@/components/Arrival";
 import { Button } from "@/components/Button";
@@ -12,7 +13,10 @@ import { ARRIVAL_COOKIE_NAME } from "@/lib/arrival-cookie";
 // The real RUNAVERA homepage (Phase 5). Replaces the Phase 2/3 foundation
 // test surface entirely — this is what a first-time visitor sees right
 // after Arrival, and what a returning visitor sees immediately.
-function HomePage() {
+async function HomePage({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: "Home" });
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
+
   return (
     <main id="main-content">
       {/* ---------- Hero ---------- */}
@@ -20,7 +24,7 @@ function HomePage() {
         <div className="absolute inset-0">
           <Image
             src="/images/roermond-sunset-hero.png"
-            alt="A warm golden sunset over a calm river near Roermond, with a grassy, wildflower-lined bank in the foreground and a tree-lined horizon reflected in the water."
+            alt={t("heroAlt")}
             fill
             priority
             sizes="100vw"
@@ -38,20 +42,19 @@ function HomePage() {
 
         <Container size="wide" className="relative pb-atmosphere">
           <div className="max-w-2xl">
-            <h1 className="text-display text-limestone">
-              Your journey on the Maasplassen begins here.
-            </h1>
+            <h1 className="text-display text-limestone">{t("heroHeading")}</h1>
             <TextLink href="#pillars" className="text-body-lg mt-component inline-block">
-              Explore the experiences ↓
+              {t("exploreCue")}
             </TextLink>
           </div>
         </Container>
 
         {/* Required CC BY-SA 2.0 attribution — always visible, not
             hover-to-reveal-only (can't legally gate it behind an
-            interaction). */}
+            interaction). Photographer name/license identifier stay fixed
+            across locales — only the connective microcopy translates. */}
         <p className="text-caption relative px-6 pb-4 text-mist/65 tablet:px-12 tablet:text-right desktop:px-20">
-          Photo:{" "}
+          {t("heroAttributionPhoto")}{" "}
           <TextLink
             href="https://commons.wikimedia.org/wiki/File:Sunset_in_roermond.jpg"
             variant="subtle"
@@ -62,7 +65,7 @@ function HomePage() {
           <TextLink href="https://creativecommons.org/licenses/by-sa/2.0/" variant="subtle">
             CC BY-SA 2.0
           </TextLink>
-          . Modified.
+          . {t("heroAttributionModified")}
         </p>
       </section>
 
@@ -77,9 +80,9 @@ function HomePage() {
           className="absolute inset-y-0 left-6 hidden w-px bg-mist/20 tablet:left-12 tablet:block desktop:left-20"
         />
         <Container size="wide" className="flex flex-col gap-hairline">
-          <Eyebrow>The experiences</Eyebrow>
+          <Eyebrow>{t("pillarsEyebrow")}</Eyebrow>
           <h2 id="pillars-heading" className="text-h2 max-w-2xl text-limestone">
-            Four directions, one current.
+            {t("pillarsHeading")}
           </h2>
         </Container>
 
@@ -92,17 +95,13 @@ function HomePage() {
       <section aria-labelledby="maasplassen-heading" className="bg-maas py-group tablet:py-section">
         <Container size="wide">
           <div className="max-w-[65ch]">
-            <Eyebrow>The Maasplassen</Eyebrow>
+            <Eyebrow>{t("maasplassenEyebrow")}</Eyebrow>
             <h2 id="maasplassen-heading" className="text-h2 mt-hairline text-limestone">
-              Where the water meets.
+              {t("maasplassenHeading")}
             </h2>
-            <p className="text-body-lg mt-content text-mist">
-              Roermond sits where the Roer flows into the Maas — a confluence that widened, over
-              time, into the Maasplassen: a landscape of open water, quiet inlets, and shoreline
-              that rewards a slower pace.
-            </p>
+            <p className="text-body-lg mt-content text-mist">{t("maasplassenBody")}</p>
             <TextLink href="/maasplassen" variant="subtle" className="text-body mt-component inline-block">
-              Discover the Maasplassen
+              {t("maasplassenLink")}
             </TextLink>
           </div>
         </Container>
@@ -112,13 +111,9 @@ function HomePage() {
       <section aria-labelledby="story-heading" className="bg-limestone py-group tablet:py-section">
         <Container size="measure">
           <h2 id="story-heading" className="text-h2 text-deep-water">
-            Born where two waters meet.
+            {t("storyHeading")}
           </h2>
-          <p className="text-body-lg mt-content text-maas">
-            RUNAVERA began with a simple observation: the best moments happen along the way, not
-            only at the destination. We build experiences around that idea — unhurried,
-            intentional, and rooted in Roermond&rsquo;s own rivers.
-          </p>
+          <p className="text-body-lg mt-content text-maas">{t("storyBody")}</p>
         </Container>
       </section>
 
@@ -129,10 +124,10 @@ function HomePage() {
             {/* text-h3 is a visual-weight choice only — kept a semantic H2
                 so the closing CTA stays a peer of Maasplassen/Story in the
                 heading hierarchy, not a demoted subsection. */}
-            When you&rsquo;re ready, we&rsquo;re here to help you plan it.
+            {tCommon("ctaHeading")}
           </h2>
           <Button variant="secondary" href="/plan">
-            Plan your experience
+            {tCommon("ctaButton")}
           </Button>
         </Container>
       </section>
@@ -146,14 +141,15 @@ function HomePage() {
 // stacked — Arrival collapses itself on exit, and the homepage (already
 // present) is what's left. This also means a no-JS visitor can always
 // scroll past Arrival or use the skip-to-content link to reach it directly.
-export default async function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const cookieStore = await cookies();
   const hasArrived = cookieStore.has(ARRIVAL_COOKIE_NAME);
 
   return (
     <>
       {!hasArrived && <Arrival />}
-      <HomePage />
+      <HomePage locale={locale} />
     </>
   );
 }
