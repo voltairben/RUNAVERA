@@ -14,13 +14,13 @@ FOUNDATION & EXPERIENCE
 | 7     | Experience detail pages                    | COMPLETE                |
 | 8     | Maasplassen story                          | COMPLETE                |
 | 9     | Brand story / About                        | COMPLETE                |
-| 10    | Planning / conversion experience           | NEXT — NOT STARTED      |
+| 10    | Planning / conversion experience           | COMPLETE                |
 
 STRUCTURE & PLATFORM
 
 | Phase | Focus                                      | Status     |
 |------:|--------------------------------------------|------------|
-| 11    | Navigation refinement                     | NOT STARTED |
+| 11    | Navigation refinement                     | NEXT — NOT STARTED |
 | 12    | Mobile experience                         | NOT STARTED |
 | 13    | EN / NL / DE internationalisation         | NOT STARTED |
 | 14    | Motion system & transitions               | NOT STARTED |
@@ -42,5 +42,5 @@ QUALITY & LAUNCH
 | 25    | CodeRabbit / PR review                    | NOT STARTED |
 | 26    | Final visual / UX review                  | NOT STARTED |
 
-Current position: Phase 9 is complete. Phase 10 is the next planned phase and has not started. Phases 0–8 are also complete, as recorded above. Do not begin Phase 10 or later work until the phase is explicitly approved in the conversation.
+Current position: Phase 10 is complete. Phase 11 is the next planned phase and has not started. Phases 0–9 are also complete, as recorded above. Do not begin Phase 11 or later work until the phase is explicitly approved in the conversation.
 

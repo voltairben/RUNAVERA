@@ -5,10 +5,12 @@ import { startTransition, useState } from "react";
 import { Pillar } from "@/components/Pillar";
 import { pillars } from "@/lib/pillars";
 
-// Homepage-only composition detail — each pillar's horizontal/vertical
-// offset within the asymmetric layout (see CLAUDE.md's Homepage section).
-// Not pillar *content*, so it stays local here rather than in the shared
-// lib/pillars.ts data both this component and the detail pages consume.
+// Composition detail shared by the homepage and /plan (Phase 10 reuses this
+// component directly rather than inventing a second chooser) — each
+// pillar's horizontal/vertical offset within the asymmetric layout (see
+// CLAUDE.md's Homepage and Phase 10 sections). Not pillar *content*, so it
+// stays local here rather than in the shared lib/pillars.ts data both this
+// component and the detail pages consume.
 //
 // Private gets a larger gap at every width, not just tablet+ — varied
 // vertical spacing is the pillars' visual differentiator on mobile (no
@@ -21,8 +23,9 @@ const layoutClassNames: Record<string, string> = {
 };
 
 /**
- * Owns which pillar is currently chosen. Lifted here because app/page.tsx is
- * an async Server Component and can't hold state itself. Set on click/Enter
+ * Owns which pillar is currently chosen. Lifted here because both pages
+ * that render this (app/page.tsx and app/plan/page.tsx) are async Server
+ * Components and can't hold state themselves. Set on click/Enter
  * (see Pillar.tsx) without preventing the click, so real navigation proceeds
  * alongside the chosen-state visual.
  *

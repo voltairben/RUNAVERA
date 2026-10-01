@@ -29,10 +29,12 @@ function PillarLinkLabel({ name }: { name: string }) {
 /**
  * One of the four experience directions (Escapes/Explore/Private/Gather).
  * `isChosen`/`isDimmed`/`onChoose` are lifted into PillarGroup (a client
- * component — app/page.tsx is an async Server Component and can't hold
- * state itself). `name` renders as an <h3> (nested under the pillars
- * section's own <h2> — see app/page.tsx), decoupled from that semantic
- * level like every other heading in this project.
+ * component — the Server Components that render it, app/page.tsx and
+ * app/plan/page.tsx, can't hold state themselves). `name` renders as an
+ * <h3> — nested under a pillars section's own <h2>, which whichever page
+ * renders `PillarGroup` is responsible for providing (see app/page.tsx and
+ * app/plan/page.tsx) — decoupled from that semantic level like every other
+ * heading in this project.
  *
  * The CTA renders `next/link`'s `<Link>` instead of `TextLink` — the one
  * scoped exception in the site, so this navigation is eligible for a React

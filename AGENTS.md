@@ -105,7 +105,7 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 - **Active link color** comes from a global `[aria-current="page"] { color: var(--color-sunset) !important; }` rule in `globals.css`, not a per-component class override — avoids depending on Tailwind's utility-ordering to reliably beat `TextLink`'s own color class.
 - **Arrival hook**: `Header` accepts a `suppressed` prop (renders mounted-but-visually-inert) for Phase 4 to wire up against real Arrival logic. Not resolved now — today's `app/page.tsx` is an ordinary page, not Arrival, so it gets normal header clearance like any page.
 - **Skip-to-content**: first focusable element in `app/layout.tsx`, jumps to `#main-content`.
-- **Not built yet**: `Breadcrumb` component — Experience pages exist now (Phase 7), but a single nesting level (home → one pillar page) doesn't yet justify a generalized breadcrumb primitive; a plain `TextLink` back-link does the same job today (see the Experience pages section below). Revisit if a real second nesting level appears. Also not built: language selector (i18n not implemented), `/plan` (still 404 until its own phase builds it — the nav links to its intended future IA on purpose). `/maasplassen` is real as of Phase 8; `/about` is real as of Phase 9.
+- **Not built yet**: `Breadcrumb` component — Experience pages exist now (Phase 7), but a single nesting level (home → one pillar page) doesn't yet justify a generalized breadcrumb primitive; a plain `TextLink` back-link does the same job today (see the Experience pages section below). Revisit if a real second nesting level appears. Also not built: language selector (i18n not implemented). `/maasplassen` is real as of Phase 8; `/about` is real as of Phase 9; `/plan` is real as of Phase 10 — every real-page route the nav links to now resolves.
 
 ## Arrival (Phase 4)
 
@@ -142,7 +142,7 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 
 ## Pillar transitions (Phase 6)
 
-`components/PillarGroup.tsx` (new) — a `"use client"` wrapper owning which pillar is currently chosen. `app/page.tsx` is an `async` Server Component and can't hold state itself, so this is where the four `<Pillar>` calls that used to sit directly in `app/page.tsx` now live; `app/page.tsx` still owns the surrounding `<section>`, its heading, and the base hairline.
+`components/PillarGroup.tsx` (new) — a `"use client"` wrapper owning which pillar is currently chosen. `app/page.tsx` is an `async` Server Component and can't hold state itself, so this is where the four `<Pillar>` calls that used to sit directly in `app/page.tsx` now live; `app/page.tsx` still owns the surrounding `<section>`, its heading, and the base hairline. **No longer homepage-exclusive as of Phase 10**: `app/plan/page.tsx` renders `PillarGroup` too, wrapped in the same section/heading pattern — see the Phase 10 section below.
 
 - **Scoped `next/link` exception**: `Pillar.tsx`'s own CTA is the only link in the site using `next/link`'s `<Link>` instead of `TextLink`'s plain `<a>` — introduced specifically so its navigation is eligible for a React `<ViewTransition>`. Its visual classes are copied from `TextLink`'s `default` variant rather than importing `TextLink` itself, since `TextLink` always renders a plain `<a>` and isn't meant to change for this one case. `TextLink`, `Button`, `NavLink`, and every other link in the site are unchanged.
 - **Chosen state**: click or Enter on a pillar's link sets `PillarGroup`'s `selectedSlug` synchronously (the click isn't `preventDefault`-ed — real navigation proceeds normally alongside it). The chosen pillar's heading and hairline tick shift to Sunset; the other three dim to ~40% opacity via `isDimmed`. This is the *entire* visible mechanism — it does not depend on `useLinkStatus()`'s `pending` ever firing (see below). Space is deliberately not wired to anything beyond its native scroll behavior — these are links, not buttons; only Enter (and click) activate them.
@@ -186,9 +186,18 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 - **No View Transition / `next/link` changes**: the nav's "About" link was never part of Phase 6's pillar-transition mechanism, same as Maasplassen's link.
 - **No in-page "concept project" disclosure**: confirmed directly — that belongs to a separate case-study write-up outside this site, not the live page. `/about` stays fully in-universe, matching every other page.
 
+## Plan your experience (Phase 10)
+
+`app/plan/page.tsx` (new) — the real page every closing CTA on the site and the persistent nav CTA ("Plan your experience") have pointed at since Phase 3. **A static planning guide, not a contact/enquiry/booking surface**: no `mailto:`/phone/address (real or fake), no form, no simulated submission, no invented prices or availability — RUNAVERA has no backend and none is being built for this. The actual conversion this page performs is helping a visitor recognize which pillar fits the day they want, then sending them to the real `/experiences/[slug]` page.
+
+- **Reuses `<PillarGroup />` directly** — no new chooser UI. `/plan`'s whole purpose is choosing a pillar, the same real justification the homepage already has for that composition (asymmetric layout, hairline motif, Sunset chosen-state, the `pillar-name-${slug}` `<ViewTransition>` handoff into Experience pages) — all of it works here with zero behavior changes to `PillarGroup`/`Pillar` themselves, only three existing comments corrected to describe the composition as shared rather than homepage-exclusive (`PillarGroup.tsx`, `Pillar.tsx`, and `app/experiences/page.tsx`'s own "not a second chooser" comment, which now contrasts itself against two real choosers instead of one).
+- **Wrapped in its own `<section aria-labelledby>` with a real H2** ("Four directions, one current." — reused verbatim from the homepage's own section heading), not rendered bare — `Pillar`'s `<h3>` names need a parent H2 on every page that renders them, and `PillarGroup` itself has no opinion on where that comes from.
+- **No new photography, no Header theme change** — `/plan` isn't `/`, so it already resolves to the existing `dark` default (same simplification Phase 9 had).
+- **Intro and closing copy reuse already-established phrases rather than inventing a new voice for one page**: the H1 is the exact "Plan your experience" CTA label used everywhere already; the framing line picks up "Four directions, one current" (homepage); the closing line reuses "However you choose to spend the day, the water sets the pace." verbatim from the About page's own closing thought, not new persuasive copy.
+
 ## Current phase
 
-Phase 9 — Brand Story / About, complete. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build `/plan` (Phase 10), enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
+Phase 10 — Plan Your Experience, complete. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
 
 ## Agent responsibilities (`.codex/agents/`)
 

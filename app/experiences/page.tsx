@@ -5,9 +5,10 @@ import { pillars } from "@/lib/pillars";
 
 // A plain directory, not a second "chooser" — the asymmetric layout,
 // hairline motif, and <ViewTransition> wrapping all belong to the
-// homepage's own pillar-choosing moment (see components/PillarGroup.tsx).
-// This page exists so the persistent nav's "Experiences" link (which
-// points at bare /experiences) has somewhere real to land.
+// homepage's and /plan's pillar-choosing moment (see
+// components/PillarGroup.tsx). This page exists so the persistent nav's
+// "Experiences" link (which points at bare /experiences) has somewhere
+// real to land.
 export default function ExperiencesIndexPage() {
   return (
     <main id="main-content" className="pt-header">
