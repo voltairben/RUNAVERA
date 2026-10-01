@@ -195,9 +195,17 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 - **No new photography, no Header theme change** — `/plan` isn't `/`, so it already resolves to the existing `dark` default (same simplification Phase 9 had).
 - **Intro and closing copy reuse already-established phrases rather than inventing a new voice for one page**: the H1 is the exact "Plan your experience" CTA label used everywhere already; the framing line picks up "Four directions, one current" (homepage); the closing line reuses "However you choose to spend the day, the water sets the pace." verbatim from the About page's own closing thought, not new persuasive copy.
 
+## Navigation refinement (Phase 11)
+
+A focused review of two specific nav/wayfinding questions, not a redesign — one real fix, one deliberate no-change, both recorded here so the no-change isn't silently revisited later without re-deriving why.
+
+- **Fixed**: `NavLink.tsx`'s active-state match was exact-path-only (`pathname === href`), so the persistent nav's "Experiences" item showed no active state at all on any `/experiences/[slug]` detail page — a real gap, since `NavLink` predates that route (Phase 3 vs. Phase 7) and was never revisited for it. Now boundary-aware: `` `pathname === href || pathname.startsWith(`${href}/`)` `` — exact match, or prefix match only when followed by a real path separator, so an unrelated future route sharing the same prefix (e.g. a hypothetical `/experiences-extra`) can't false-positive. Applies uniformly to every nav item, not special-cased to Experiences; a no-op today for `/maasplassen`/`/about` (no child routes yet).
+- **Considered, not changed**: whether Experience detail pages' back-link should point at `/experiences` instead of `/`. Three real arrival paths exist (homepage's `PillarGroup`, `/plan`'s `PillarGroup`, the plain `/experiences` index) — with no traffic data showing which dominates, a static link can't be "correct" for all three regardless, and `/` is the target every other one-hop-deep page on the site already uses consistently (Maasplassen, About, Plan). Changing just the Experience pages would trade that consistency for an unproven benefit. Separately noted: `/experiences` itself has no back-link of its own, so redirecting wouldn't produce a complete trail anyway — a real second-order observation, not a reason to act on it now. The theoretically "correct" fix (return to wherever the visitor actually came from) is browser history, not a different static href — real new complexity nothing here currently justifies.
+- **Not built**: Breadcrumb component, language selector, new routes, or any header/mobile-menu redesign — none demonstrated as necessary by this review.
+
 ## Current phase
 
-Phase 10 — Plan Your Experience, complete. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
+Phase 11 — Navigation Refinement, complete. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
 
 ## Agent responsibilities (`.codex/agents/`)
 

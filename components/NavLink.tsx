@@ -29,7 +29,12 @@ interface NavLinkProps {
  */
 export function NavLink({ href, children, onClick }: NavLinkProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  // Boundary-aware match, not a bare `startsWith` — that would also match
+  // an unrelated future route sharing the same prefix (e.g. `/experiences`
+  // vs. a hypothetical `/experiences-extra`). The `+ "/"` requires a real
+  // path separator before treating it as "within this nav item's section"
+  // (e.g. `/experiences/escapes`, a real child route since Phase 7).
+  const isActive = pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <TextLink href={href} onClick={onClick} aria-current={isActive ? "page" : undefined}>
