@@ -105,7 +105,7 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 - **Active link color** comes from a global `[aria-current="page"] { color: var(--color-sunset) !important; }` rule in `globals.css`, not a per-component class override — avoids depending on Tailwind's utility-ordering to reliably beat `TextLink`'s own color class.
 - **Arrival hook**: `Header` accepts a `suppressed` prop (renders mounted-but-visually-inert) for Phase 4 to wire up against real Arrival logic. Not resolved now — today's `app/page.tsx` is an ordinary page, not Arrival, so it gets normal header clearance like any page.
 - **Skip-to-content**: first focusable element in `app/layout.tsx`, jumps to `#main-content`.
-- **Not built yet**: `Breadcrumb` component — Experience pages exist now (Phase 7), but a single nesting level (home → one pillar page) doesn't yet justify a generalized breadcrumb primitive; a plain `TextLink` back-link does the same job today (see the Experience pages section below). Revisit if a real second nesting level appears. Also not built: language selector (i18n not implemented), `/about`, `/plan` (still 404 until their own phases build them — the nav links to its intended future IA on purpose). `/maasplassen` is real as of Phase 8.
+- **Not built yet**: `Breadcrumb` component — Experience pages exist now (Phase 7), but a single nesting level (home → one pillar page) doesn't yet justify a generalized breadcrumb primitive; a plain `TextLink` back-link does the same job today (see the Experience pages section below). Revisit if a real second nesting level appears. Also not built: language selector (i18n not implemented), `/plan` (still 404 until its own phase builds it — the nav links to its intended future IA on purpose). `/maasplassen` is real as of Phase 8; `/about` is real as of Phase 9.
 
 ## Arrival (Phase 4)
 
@@ -176,9 +176,19 @@ RUNAVERA ships one fixed, art-directed palette (see Design tokens). Do not add a
 - **No View Transition / `next/link` changes**: the homepage's Maasplassen teaser link was never part of Phase 6's pillar-transition mechanism — this page doesn't retrofit it. No Breadcrumb (one page, no nesting — same reasoning as Phase 7's experience pages).
 - **Header theme default/exception flipped** — see the Navigation section above for the full reasoning; `app/layout.tsx` now passes `theme="dark"` as the site default, and `Header.tsx` forces `transparent-media` back on only at `pathname === "/"`.
 
+## About (Phase 9)
+
+`app/about/page.tsx` (new) — the real page the persistent nav's "About" link has pointed at since Phase 3. RUNAVERA is a fictional portfolio-concept brand (no real founder, team, history, or credentials exist or may be invented — see Constraints below); this page is built entirely from two real copy blocks supplied directly, used verbatim, not rewritten or embellished.
+
+- **Two-part structure**: an intro section (the practical "what" — rentals, guided outings, private charters, celebrations) ending on a standalone pull-quote, "RUNAVERA — Move beyond the Maas & Roer." — only the "Move beyond the Maas & Roer." portion is `Arrival.tsx`'s own existing tagline, reused exactly; the "RUNAVERA — " prefix is this page's own addition for its standalone context, not a claim that the full prefixed line exists elsewhere. Then "The idea behind RUNAVERA" (the reflective "why" — the Roer/Maas confluence as inspiration, "the water sets the pace"), on **Limestone**, mirroring the homepage's own Maasplassen(Maas)/Story(Limestone) light/dark pairing — About's reflective half gets the same "one light section" treatment Story's already has, rather than inventing a new background rule. No Eyebrow above that section's H2, the same exception Story's own section already established.
+- **No Header theme change needed**: `/about` isn't `/`, so it already resolves to the existing `dark` default with zero code change — unlike Phases 7 and 8, this phase doesn't touch `Header.tsx` or `app/layout.tsx` at all.
+- **No new photography**: text/atmosphere-only, same reasoning as the Experience pages (Phase 7) — no obvious literal subject to photograph for an "idea/why" page, and nothing but copy was actually supplied.
+- **No View Transition / `next/link` changes**: the nav's "About" link was never part of Phase 6's pillar-transition mechanism, same as Maasplassen's link.
+- **No in-page "concept project" disclosure**: confirmed directly — that belongs to a separate case-study write-up outside this site, not the live page. `/about` stays fully in-universe, matching every other page.
+
 ## Current phase
 
-Phase 8 — The Maasplassen Story, complete. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build `/about` (Phase 9), `/plan` (Phase 10), enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
+Phase 9 — Brand Story / About, complete. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build `/plan` (Phase 10), enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
 
 ## Agent responsibilities (`.codex/agents/`)
 
@@ -188,4 +198,4 @@ Brand Guardian (identity/logo/palette consistency), UI Designer (visual polish),
 
 - No booking backend, CMS, or database until a real requirement exists.
 - No animation libraries, large UI kits, icon libraries, WebGL, or video until a phase actually calls for them.
-- Real business data (prices, availability, etc.) does not exist — use structured placeholder data, never invented real-looking data.
+- Real business data (prices, availability, etc.) does not exist — use structured placeholder data, never invented real-looking data. RUNAVERA is itself a fictional portfolio-concept brand (confirmed explicitly in Phase 9) — no real founder, team, company history, awards, licenses, or certifications exist or may be invented; use only copy supplied directly, and flag the gap rather than filling it.

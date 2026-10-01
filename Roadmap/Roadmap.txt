@@ -10,11 +10,11 @@ FOUNDATION & EXPERIENCE
 | 3     | UX architecture & navigation               | COMPLETE               |
 | 4     | Arrival experience                         | COMPLETE               |
 | 5     | Pillar interaction / main homepage         | COMPLETE               |
-| 6     | Pillar transitions & flow                  | CURRENT — PLAN ONLY     |
-| 7     | Experience detail pages                    | NOT STARTED             |
-| 8     | Maasplassen story                          | NOT STARTED             |
-| 9     | Brand story / About                        | NOT STARTED             |
-| 10    | Planning / conversion experience           | NOT STARTED             |
+| 6     | Pillar transitions & flow                  | COMPLETE                |
+| 7     | Experience detail pages                    | COMPLETE                |
+| 8     | Maasplassen story                          | COMPLETE                |
+| 9     | Brand story / About                        | COMPLETE                |
+| 10    | Planning / conversion experience           | NEXT — NOT STARTED      |
 
 STRUCTURE & PLATFORM
 
@@ -41,4 +41,6 @@ QUALITY & LAUNCH
 | 24    | Final security review                     | NOT STARTED |
 | 25    | CodeRabbit / PR review                    | NOT STARTED |
 | 26    | Final visual / UX review                  | NOT STARTED |
+
+Current position: Phase 9 is complete. Phase 10 is the next planned phase and has not started. Phases 0–8 are also complete, as recorded above. Do not begin Phase 10 or later work until the phase is explicitly approved in the conversation.
 
