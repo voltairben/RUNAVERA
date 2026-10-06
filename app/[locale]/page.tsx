@@ -18,7 +18,7 @@ async function HomePage({ locale }: { locale: string }) {
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
   return (
-    <main id="main-content">
+    <main id="main-content" tabIndex={-1}>
       {/* ---------- Hero ---------- */}
       <section className="relative flex h-dvh flex-col justify-end overflow-hidden bg-deep-water">
         <div className="absolute inset-0">

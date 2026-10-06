@@ -28,7 +28,7 @@ const variantStyles: Record<TextLinkVariant, string> = {
  */
 export function TextLink({ variant = "default", className, children, ...props }: TextLinkProps) {
   const classes = [
-    "underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:decoration-current",
+    "underline decoration-transparent underline-offset-4 transition-colors duration-200 ease-out hover:decoration-current",
     variantStyles[variant],
     className,
   ]

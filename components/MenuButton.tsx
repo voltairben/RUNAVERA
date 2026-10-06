@@ -25,24 +25,24 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(functio
       aria-expanded={isOpen}
       aria-controls={controlsId}
       aria-label={isOpen ? t("closeMenu") : t("openMenu")}
-      className="flex h-11 w-11 items-center justify-center text-mist transition-colors duration-200 hover:text-sunset focus-visible:text-sunset tablet:hidden"
+      className="flex h-11 w-11 items-center justify-center text-mist transition-colors duration-200 ease-out hover:text-sunset focus-visible:text-sunset tablet:hidden"
     >
       <span className="flex h-4 w-6 flex-col justify-between">
         <span
           className={[
-            "h-px w-full bg-current transition-transform duration-200",
+            "h-px w-full bg-current transition-transform duration-200 ease-out",
             isOpen ? "translate-y-[7px] rotate-45" : "",
           ].join(" ")}
         />
         <span
           className={[
-            "h-px w-full bg-current transition-opacity duration-200",
+            "h-px w-full bg-current transition-opacity duration-200 ease-out",
             isOpen ? "opacity-0" : "",
           ].join(" ")}
         />
         <span
           className={[
-            "h-px w-full bg-current transition-transform duration-200",
+            "h-px w-full bg-current transition-transform duration-200 ease-out",
             isOpen ? "-translate-y-[7px] -rotate-45" : "",
           ].join(" ")}
         />

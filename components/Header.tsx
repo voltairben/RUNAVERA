@@ -47,12 +47,12 @@ interface HeaderProps {
 }
 
 // "dark"/"light" cover Deep Water-or-Maas vs. Limestone sections.
-// "transparent-media" is the one documented gradient exception from Phase 2
-// (a scrim simulating light falloff for legibility over full-bleed
-// photography — not decorative depth).
+// "transparent-media" renders its gradient scrim as a separate overlay element
+// (see the scrim below), not on the header background, so the scrim can fade
+// with opacity instead of being removed instantly when the header goes solid.
 const themeStyles: Record<HeaderTheme, string> = {
   dark: "bg-transparent text-limestone",
-  "transparent-media": "bg-gradient-to-b from-deep-water/60 to-transparent text-limestone",
+  "transparent-media": "bg-transparent text-limestone",
   light: "bg-transparent text-deep-water",
 };
 
@@ -135,7 +135,7 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
       aria-hidden={suppressed || undefined}
       inert={suppressed}
       className={[
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,height,opacity] duration-200",
+        "fixed inset-x-0 top-0 z-50 transition-[background-color,height,opacity] duration-200 ease-out",
         heightClasses,
         suppressed ? "pointer-events-none opacity-0" : "",
         isScrolled
@@ -143,14 +143,24 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
           : themeStyles[theme],
       ].join(" ")}
     >
+      {theme === "transparent-media" && (
+        <div
+          aria-hidden="true"
+          className={[
+            "pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-deep-water/60 to-transparent transition-opacity duration-200 ease-out",
+            isScrolled ? "opacity-0" : "opacity-100",
+          ].join(" ")}
+        />
+      )}
       <Container size="wide" className="flex h-full items-center justify-between">
         <Logo
           variant="primary"
           priority
           alt={t("alt")}
-          className={["object-contain transition-[height,width] duration-200", logoClasses].join(
-            " "
-          )}
+          className={[
+            "object-contain transition-[height,width] duration-200 ease-out",
+            logoClasses,
+          ].join(" ")}
         />
         <DesktopNav />
         <MenuButton ref={menuButtonRef} isOpen={isMenuOpen} onClick={toggleMenu} controlsId={menuId} />

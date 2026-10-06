@@ -21,7 +21,7 @@ type ButtonProps = ButtonAsButton | ButtonAsLink;
 // Sharp corners (no radius), solid/hairline treatment, no shadow or
 // transform on hover — deliberately not the generic SaaS pill button.
 const baseStyles =
-  "text-button inline-flex min-h-11 items-center justify-center px-6 transition-colors duration-200 disabled:pointer-events-none disabled:opacity-40";
+  "text-button inline-flex min-h-11 items-center justify-center px-6 transition-colors duration-200 ease-out disabled:pointer-events-none disabled:opacity-40";
 
 const variantStyles: Record<ButtonVariant, string> = {
   // #C56D43 = Sunset darkened ~9%, for the hover state.

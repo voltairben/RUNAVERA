@@ -44,7 +44,7 @@ export function LanguageSwitcher({ onNavigate, className }: LanguageSwitcherProp
               onClick={onNavigate}
               aria-current={isActive ? "true" : undefined}
               className={[
-                "underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:decoration-current",
+                "underline decoration-transparent underline-offset-4 transition-colors duration-200 ease-out hover:decoration-current",
                 isActive ? "text-sunset" : "text-mist hover:text-limestone",
               ].join(" ")}
             >

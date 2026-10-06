@@ -30,13 +30,17 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
     return () => document.body.classList.remove("scroll-locked");
   }, [isOpen]);
 
-  // Focus the panel on open; trap Tab inside it; Escape closes.
+  // Focus the first control on open (not the container, which is outside the
+  // trap's focusable list); trap Tab inside the panel; Escape closes.
   useEffect(() => {
     if (!isOpen) return;
     const panel = panelRef.current;
     if (!panel) return;
 
-    panel.focus();
+    const getFocusable = () =>
+      Array.from(panel.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"));
+
+    getFocusable()[0]?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -45,7 +49,7 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
       }
       if (event.key !== "Tab") return;
 
-      const focusable = panel.querySelectorAll<HTMLElement>("a[href], button:not([disabled])");
+      const focusable = getFocusable();
       if (focusable.length === 0) return;
 
       const first = focusable[0];
@@ -72,8 +76,11 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
       role="dialog"
       aria-modal="true"
       aria-label={tMobileNav("dialogLabel")}
-      hidden={!isOpen}
-      className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-center gap-group bg-deep-water px-6 tablet:hidden"
+      className={[
+        "fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-center gap-group bg-deep-water px-6 tablet:hidden",
+        "transition-[opacity,visibility] duration-200 ease-out",
+        isOpen ? "visible opacity-100" : "invisible opacity-0",
+      ].join(" ")}
     >
       <ul className="flex flex-col gap-component text-h4">
         {primaryNavItems.map((item) => (

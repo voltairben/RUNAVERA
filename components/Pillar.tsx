@@ -59,7 +59,7 @@ export function Pillar({
   onChoose,
 }: PillarProps) {
   const classes = [
-    "group relative max-w-xl transition-opacity duration-200",
+    "group relative max-w-xl transition-opacity duration-200 ease-out",
     isDimmed ? "opacity-40" : "opacity-100",
     className,
   ]
@@ -69,7 +69,7 @@ export function Pillar({
   const heading = (
     <h3
       className={[
-        "text-h1 transition-colors duration-200",
+        "text-h1 transition-colors duration-200 ease-out",
         isChosen ? "text-sunset" : "text-limestone",
       ].join(" ")}
     >
@@ -85,7 +85,7 @@ export function Pillar({
       <span
         aria-hidden="true"
         className={[
-          "absolute -left-4 top-2 h-6 w-px transition-colors duration-200",
+          "absolute -left-4 top-2 h-6 w-px transition-colors duration-200 ease-out",
           isChosen
             ? "bg-sunset"
             : "bg-mist/40 group-hover:bg-sunset group-focus-within:bg-sunset",
@@ -106,7 +106,7 @@ export function Pillar({
         href={href}
         onClick={onChoose}
         transitionTypes={["pillar-choice"]}
-        className="mt-component inline-block text-body text-limestone underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:text-sunset hover:decoration-current"
+        className="mt-component inline-block text-body text-limestone underline decoration-transparent underline-offset-4 transition-colors duration-200 ease-out hover:text-sunset hover:decoration-current"
       >
         <PillarLinkLabel name={name} />
       </Link>

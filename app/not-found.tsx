@@ -44,7 +44,7 @@ export default function RootNotFound() {
         <p className="text-body-lg text-mist">The page you&rsquo;re looking for doesn&rsquo;t exist.</p>
         <Link
           href="/"
-          className="text-nav text-limestone underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:text-sunset hover:decoration-current"
+          className="text-nav text-limestone underline decoration-transparent underline-offset-4 transition-colors duration-200 ease-out hover:text-sunset hover:decoration-current"
         >
           Return home
         </Link>

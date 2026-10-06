@@ -20,10 +20,9 @@ const EXIT_DURATION_MS = 1000;
  *
  * Sequencing (logo → beat → tagline → Current) is driven entirely by CSS
  * `animation-delay` (see the `arrival-fade-in` / `arrival-current-reveal`
- * keyframes in globals.css), not a JS timer chain — reduced motion is
- * handled for free by the existing global `prefers-reduced-motion` rule
- * (collapses every duration to ~0, so everything simply appears
- * immediately — no separate reduced-motion code path needed here).
+ * keyframes in globals.css), not a JS timer chain — the global
+ * `prefers-reduced-motion` rule collapses those animations to ~0, so they
+ * appear immediately. Only the exit unmount timeout reads the preference.
  *
  * The logo and tagline are real brand content, not decoration — they are
  * NOT aria-hidden, so a screen-reader user reading linearly still gets the
@@ -40,10 +39,19 @@ export function Arrival() {
   const [isExiting, setIsExiting] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const hasExitedRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const exit = () => {
     if (hasExitedRef.current) return;
     hasExitedRef.current = true;
+
+    // Move focus before `inert` is applied (next render) — making a focused
+    // element inert first would drop focus to <body>.
+    const main = document.getElementById("main-content");
+    const focusInArrival = containerRef.current?.contains(document.activeElement) ?? false;
+    if (main && (focusInArrival || document.activeElement === document.body)) {
+      main.focus({ preventScroll: true });
+    }
 
     // A direct, synchronous cookie write — not a network round-trip. A
     // Route Handler + `fetch(..., { keepalive: true })` was tried first,
@@ -93,6 +101,8 @@ export function Arrival() {
 
   return (
     <div
+      ref={containerRef}
+      inert={isExiting}
       className={[
         "relative flex h-dvh flex-col overflow-hidden bg-deep-water",
         "transition-[opacity,max-height] duration-1000 ease-out",
@@ -132,7 +142,7 @@ export function Arrival() {
       <button
         type="button"
         onClick={exit}
-        className="text-nav absolute bottom-10 left-1/2 -translate-x-1/2 text-mist underline decoration-transparent underline-offset-4 transition-colors duration-200 hover:text-sunset hover:decoration-current focus-visible:text-sunset"
+        className="text-nav absolute bottom-10 left-1/2 -translate-x-1/2 text-mist underline decoration-transparent underline-offset-4 transition-colors duration-200 ease-out hover:text-sunset hover:decoration-current focus-visible:text-sunset"
       >
         {t("enter")}
       </button>
