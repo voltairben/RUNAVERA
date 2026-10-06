@@ -76,6 +76,7 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
       role="dialog"
       aria-modal="true"
       aria-label={tMobileNav("dialogLabel")}
+      inert={!isOpen}
       className={[
         "fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-center gap-group bg-deep-water px-6 tablet:hidden",
         "transition-[opacity,visibility] duration-200 ease-out",
