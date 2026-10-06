@@ -42,5 +42,14 @@ QUALITY & LAUNCH
 | 25    | CodeRabbit / PR review                    | NOT STARTED |
 | 26    | Final visual / UX review                  | NOT STARTED |
 
+PHASE 14 FOLLOW-UP CHECKS
+
+These are deferred verification checks, not blockers to Phase 14's completed status. Carry them into the listed review phases:
+
+- **Phase 19 — Functional testing:** verify Cmd-click behavior on macOS and investigate/retest the one Firefox return-navigation click timeout that did not recur.
+- **Phase 20 — Mobile experience and responsive verification:** repeat key motion and navigation checks on a real touch device.
+- **Phase 21 — Accessibility:** test with a screen reader on real hardware; verify Safari/WebKit keyboard navigation and the mobile-menu focus behavior with Tab-through-links enabled.
+- **Phase 26 — Final visual / UX review:** capture and inspect the pillar heading morph in WebKit/Safari at normal speed, including the off-screen-heading case and reduced motion.
+
 Current position: Phase 14 (Motion system & transitions) is complete — verified in Firefox 155, Chromium 153 and WebKit 26.6 at 1280×800 and 390×844 against a production build. The pillar heading morph runs only when the chosen heading is visible at transition start; off-screen, navigation proceeds normally without a morph and without scrolling (an intentional limitation, not a defect). Phase 13 (EN / NL / DE internationalisation) is complete — Dutch/German copy is a first draft, pending review. Phase 12 (Mobile experience) remains merged into Phase 20, "Mobile experience and responsive verification" — still future work, not complete. Phases 0–14 are complete, as recorded above. Do not begin Phase 15 or later work until explicitly approved in the conversation.
 
