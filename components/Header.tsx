@@ -17,7 +17,7 @@ interface HeaderProps {
   /**
    * Explicit, page-declared theme for the header's "at rest" (not scrolled)
    * appearance — the default value, supplied by whoever renders Header
-   * (currently `"dark"`, passed once from app/layout.tsx).
+   * (currently `"dark"`, passed once from app/[locale]/layout.tsx).
    *
    * One narrow, named exception (Phase 8, revised from Phase 7): `/` forces
    * `transparent-media` regardless of this prop — the homepage's own
@@ -70,6 +70,7 @@ function useIsScrolled(threshold: number) {
 
 export function Header({ theme: themeProp = "dark", suppressed: initialSuppressed = false }: HeaderProps) {
   const t = useTranslations("Logo");
+  const tMobileNav = useTranslations("MobileNav");
   // `usePathname` comes from `i18n/navigation.ts` (next-intl) — it returns
   // the locale-stripped pathname, so the homepage is always "/" regardless
   // of which locale ("/", "/nl", "/de") is actually active (Phase 13). The
@@ -93,6 +94,7 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
   const isScrolled = useIsScrolled(SCROLL_THRESHOLD);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const menuId = "mobile-nav";
 
   useEffect(() => {
@@ -105,7 +107,15 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-    menuButtonRef.current?.focus();
+    const trigger = menuButtonRef.current;
+    if (trigger && trigger.getClientRects().length > 0) {
+      trigger.focus();
+      return;
+    }
+    // The trigger is display:none once the breakpoint is crossed, so focus the
+    // first rendered link instead of letting focus fall to <body>.
+    const links = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>("a[href]") ?? []);
+    links.find((link) => link.getClientRects().length > 0)?.focus();
   };
   const toggleMenu = () => (isMenuOpen ? closeMenu() : setIsMenuOpen(true));
 
@@ -153,21 +163,32 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
           ].join(" ")}
         />
       )}
-      <Container size="wide" className="flex h-full items-center justify-between">
-        <Logo
-          variant="primary"
-          priority
-          alt={t("alt")}
-          className={[
-            "object-contain transition-[height,width] duration-200 ease-out",
-            logoClasses,
-          ].join(" ")}
-        />
-        <DesktopNav />
-        <MenuButton ref={menuButtonRef} isOpen={isMenuOpen} onClick={toggleMenu} controlsId={menuId} />
-      </Container>
+      {/* The dialog boundary wraps the bar and the menu panel so the visible
+          close control is inside the modal while the menu is open. The
+          header itself keeps its banner role. */}
+      <div
+        ref={dialogRef}
+        className="h-full"
+        role={isMenuOpen ? "dialog" : undefined}
+        aria-modal={isMenuOpen || undefined}
+        aria-label={isMenuOpen ? tMobileNav("dialogLabel") : undefined}
+      >
+        <Container size="wide" className="flex h-full items-center justify-between">
+          <Logo
+            variant="primary"
+            priority
+            alt={t("alt")}
+            className={[
+              "object-contain transition-[height,width] duration-200 ease-out",
+              logoClasses,
+            ].join(" ")}
+          />
+          <DesktopNav />
+          <MenuButton ref={menuButtonRef} isOpen={isMenuOpen} onClick={toggleMenu} controlsId={menuId} />
+        </Container>
 
-      <MobileNav id={menuId} isOpen={isMenuOpen} onClose={closeMenu} />
+        <MobileNav id={menuId} isOpen={isMenuOpen} onClose={closeMenu} dialogRef={dialogRef} />
+      </div>
     </header>
   );
 }

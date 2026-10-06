@@ -183,8 +183,8 @@ body {
   --header-height: 5.5rem; /* 88px */
 }
 
-/* Applied by any page that isn't a future full-viewport Arrival (which
-   needs true edge-to-edge, no clearance). See CLAUDE.md navigation section. */
+/* Applied by every page except the homepage, whose full-viewport Arrival and
+   hero need true edge-to-edge, no clearance. See CLAUDE.md navigation section. */
 .pt-header {
   padding-top: var(--header-height);
 }

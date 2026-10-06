@@ -4,7 +4,7 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 
 // A real, within-site gap under a *valid* locale (e.g. /nl/does-not-exist)
-// — translated and on-brand. Distinct from app/global-not-found.tsx, which
+// — translated and on-brand. Distinct from the root app/not-found.tsx, which
 // handles a request that never resolves to a supported locale at all (e.g.
 // /fr/about) and is deliberately always English — see CLAUDE.md's Phase 13
 // section.

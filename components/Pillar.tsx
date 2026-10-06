@@ -40,13 +40,11 @@ function PillarLinkLabel({ name }: { name: string }) {
  * decoupled from that semantic level like every other heading in this
  * project.
  *
- * The CTA renders `i18n/navigation.ts`'s locale-aware `Link` (next-intl's
- * wrapper around `next/link`'s `Link`) instead of `TextLink` — the one
- * scoped exception in the site, so this navigation is eligible for a React
- * `<ViewTransition>`. Its visual classes are copied from TextLink's own
- * `default` variant rather than importing TextLink itself, since TextLink
- * always renders through the same `Link` primitive and isn't meant to
- * change for this one case.
+ * The CTA renders `i18n/navigation.ts`'s locale-aware `Link` directly (the
+ * same primitive TextLink uses), so this navigation can pass
+ * `transitionTypes` and take part in a React `<ViewTransition>`. Its visual
+ * classes are copied from TextLink's `default` variant rather than imported
+ * from it.
  */
 export function Pillar({
   name,

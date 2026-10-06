@@ -10,12 +10,12 @@ import { ARRIVAL_COMPLETE_EVENT } from "@/lib/arrival-events";
 const EXIT_DURATION_MS = 1000;
 
 /**
- * RUNAVERA's signature first-visit entry moment. Renders in-flow (not
- * `position: fixed`) so a no-JS visitor can simply scroll past it, or use
- * the existing skip-to-content link — both reach `#main-content`, which
- * sits on the ordinary page content rendered immediately after this
- * component (see app/page.tsx). Never a dead end regardless of JS/motion
- * preference.
+ * RUNAVERA's signature entry moment, shown on every visit to the homepage.
+ * Renders in-flow (not `position: fixed`) so the page content is reachable
+ * without JS: scroll past it, or use the skip-to-content link, which reaches
+ * `#main-content` in the ordinary page content rendered immediately after this component
+ * (see app/[locale]/page.tsx). Without JS the global header stays hidden and
+ * inert, because its reveal is dispatched by this component's JavaScript.
  *
  * Sequencing (logo → beat → tagline → Current) is driven entirely by CSS
  * `animation-delay` (see the `arrival-fade-in` / `arrival-current-reveal`
