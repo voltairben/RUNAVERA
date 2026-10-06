@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { Pillar } from "@/components/Pillar";
@@ -30,15 +30,11 @@ const layoutClassNames: Record<string, string> = {
  * click/Enter (see Pillar.tsx) without preventing the click, so real
  * navigation proceeds alongside the chosen-state visual.
  *
- * `startTransition` is required, not optional decoration: React's own docs
- * state plainly that `<ViewTransition>` animations activate on Transitions,
- * and that "regular setState calls do not trigger them" — confirmed the
- * hard way, by testing. A plain `setSelectedSlug` call rendered the
- * conditional `<ViewTransition>` wrapper correctly but never actually
- * engaged the browser's view-transition machinery (no `view-transition-name`
- * ever appeared, even at rest). Wrapping the same call in `startTransition`
- * fixed it — the chosen-state CSS visual (§ Pillar.tsx) still works
- * regardless, since it never depended on this either way.
+ * This is a plain, urgent update, not a transition. Inside the link click it
+ * would otherwise share the navigation's transition, so the chosen state
+ * only appeared once the destination loaded. Pillar headings are always
+ * named (see Pillar.tsx), so the view transition doesn't depend on this
+ * update.
  *
  * Pillar name/tagline are translated per locale (Phase 13) via
  * `useTranslations("Pillars")`, keyed by the locale-invariant `slug` from
@@ -61,7 +57,7 @@ export function PillarGroup() {
           className={layoutClassNames[slug]}
           isChosen={selectedSlug === slug}
           isDimmed={selectedSlug !== null && selectedSlug !== slug}
-          onChoose={() => startTransition(() => setSelectedSlug(slug))}
+          onChoose={() => setSelectedSlug(slug)}
         />
       ))}
     </>

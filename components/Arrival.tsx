@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 
 import { Current } from "@/components/Current";
 import { Logo } from "@/components/Logo";
-import { ARRIVAL_COOKIE_MAX_AGE_SECONDS, ARRIVAL_COOKIE_NAME } from "@/lib/arrival-cookie";
 import { ARRIVAL_COMPLETE_EVENT } from "@/lib/arrival-events";
 
 const EXIT_DURATION_MS = 1000;
@@ -53,17 +52,6 @@ export function Arrival() {
       main.focus({ preventScroll: true });
     }
 
-    // A direct, synchronous cookie write — not a network round-trip. A
-    // Route Handler + `fetch(..., { keepalive: true })` was tried first,
-    // but real testing (exit immediately followed by a reload) showed it's
-    // still genuinely racy: keepalive only guarantees the *request*
-    // survives navigation, not that its response (and Set-Cookie) is
-    // processed before a near-simultaneous reload's own request is already
-    // in flight. A synchronous write has no such window — it's committed
-    // before this function returns, let alone before any possible reload.
-    // Safe to do client-side: this is a non-sensitive "have I seen this
-    // before" preference flag, not an auth/security-relevant cookie.
-    document.cookie = `${ARRIVAL_COOKIE_NAME}=1; path=/; max-age=${ARRIVAL_COOKIE_MAX_AGE_SECONDS}; samesite=lax`;
     window.dispatchEvent(new Event(ARRIVAL_COMPLETE_EVENT));
 
     setIsExiting(true);
@@ -137,7 +125,7 @@ export function Arrival() {
       {/* Current already sets its own aria-hidden internally. min-h guards
           against a short landscape viewport (e.g. a rotated phone) squashing
           the vh-based height into a near-flat, distorted band. */}
-      <Current className="pointer-events-none h-[45vh] min-h-[220px] w-full shrink-0 tablet:h-[60vh]" />
+      <Current className="pointer-events-none h-[45vh] min-h-[220px] w-full shrink-0 tablet:h-[45vh]" />
 
       <button
         type="button"

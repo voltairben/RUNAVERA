@@ -79,8 +79,9 @@ export function MobileNav({ id, isOpen, onClose }: MobileNavProps) {
       inert={!isOpen}
       className={[
         "fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-center gap-group bg-deep-water px-6 tablet:hidden",
-        "transition-[opacity,visibility] duration-200 ease-out",
-        isOpen ? "visible opacity-100" : "invisible opacity-0",
+        isOpen
+          ? "visible opacity-100 transition-opacity duration-200 ease-out"
+          : "invisible opacity-0 transition-[opacity,visibility] duration-200 ease-out",
       ].join(" ")}
     >
       <ul className="flex flex-col gap-component text-h4">

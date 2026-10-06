@@ -36,12 +36,9 @@ interface HeaderProps {
    */
   theme?: HeaderTheme;
   /**
-   * Initial visibility seed for the Arrival experience (Phase 4) — computed
-   * server-side in app/layout.tsx from the arrival cookie, so a returning
-   * visitor's header is correct from first paint with no flash. NOT a
-   * live-controlled prop after mount: Header owns the ongoing value itself
-   * (see `suppressed` state below) and flips it to `false` when it hears
-   * the `ARRIVAL_COMPLETE_EVENT` window event Arrival dispatches on exit.
+   * Initial visibility seed for Arrival (Phase 4). The header starts
+   * suppressed on the homepage and is revealed when Arrival exits. It is
+   * reset on client navigation back to the homepage.
    */
   suppressed?: boolean;
 }
@@ -72,20 +69,22 @@ function useIsScrolled(threshold: number) {
 }
 
 export function Header({ theme: themeProp = "dark", suppressed: initialSuppressed = false }: HeaderProps) {
-  const [suppressedState, setSuppressed] = useState(initialSuppressed);
   const t = useTranslations("Logo");
   // `usePathname` comes from `i18n/navigation.ts` (next-intl) — it returns
   // the locale-stripped pathname, so the homepage is always "/" regardless
   // of which locale ("/", "/nl", "/de") is actually active (Phase 13). The
   // checks below are unchanged as a result — no new per-locale branching.
   const pathname = usePathname();
-  // Arrival only ever renders at the homepage — nothing would ever dispatch
-  // ARRIVAL_COMPLETE_EVENT to release a header that started suppressed on
-  // any other route (e.g. a first-time visitor whose first hit is a direct
-  // link to a future /experiences). `usePathname()` is live and reactive,
-  // so this also stays correct across client-side App Router navigation
-  // without needing to re-derive `initialSuppressed`.
-  const suppressed = pathname === "/" && suppressedState;
+  const [arrivalState, setArrivalState] = useState(() => ({
+    pathname,
+    suppressed: initialSuppressed,
+  }));
+  if (arrivalState.pathname !== pathname) {
+    setArrivalState({ pathname, suppressed: pathname === "/" });
+  }
+  // Arrival renders on every homepage visit. Reset the header before paint
+  // when client navigation returns to `/`, so it stays behind the intro.
+  const suppressed = pathname === "/" && arrivalState.suppressed;
   // Phase 8 exception (see the `theme` prop doc above): the homepage forces
   // `transparent-media`, overriding whatever the page renderer passed.
   // Simpler than the check it replaces — "/" has no trailing-slash/prefix
@@ -97,7 +96,9 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
   const menuId = "mobile-nav";
 
   useEffect(() => {
-    const handleArrivalComplete = () => setSuppressed(false);
+    const handleArrivalComplete = () => {
+      setArrivalState((current) => ({ ...current, suppressed: false }));
+    };
     window.addEventListener(ARRIVAL_COMPLETE_EVENT, handleArrivalComplete);
     return () => window.removeEventListener(ARRIVAL_COMPLETE_EVENT, handleArrivalComplete);
   }, []);

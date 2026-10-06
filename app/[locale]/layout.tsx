@@ -1,12 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 import { Header } from "@/components/Header";
-import { ARRIVAL_COOKIE_NAME } from "@/lib/arrival-cookie";
 import { routing, isAppLocale } from "@/i18n/routing";
 
 import "../globals.css";
@@ -82,8 +80,6 @@ export default async function LocaleLayout({
   }
   const locale = localeParam;
 
-  const cookieStore = await cookies();
-  const hasArrived = cookieStore.has(ARRIVAL_COOKIE_NAME);
   const t = await getTranslations({ locale, namespace: "Layout" });
 
   return (
@@ -95,8 +91,7 @@ export default async function LocaleLayout({
             Client Component that needs useTranslations; a selective wrap
             around only {children} would leave it with no translation
             context. The skip link's own text is resolved server-side just
-            above (one more getTranslations call alongside the existing
-            cookies() read) — it doesn't need the client provider itself,
+            above — it doesn't need the client provider itself,
             but renders inside the same boundary rather than a carve-out. */}
         <NextIntlClientProvider locale={locale}>
           <a
@@ -105,16 +100,14 @@ export default async function LocaleLayout({
           >
             {t("skipToContent")}
           </a>
-          {/* Initial `suppressed` value only — Header manages that as its own
-              state from here on and flips it via the arrival-complete event
-              (see components/Header.tsx). Assumes Arrival only ever renders
-              at the homepage of each locale — see Header.tsx's own
-              locale-stripped-pathname homepage check.
+          {/* Arrival appears on every homepage visit. Header starts suppressed
+              and resets that state when client navigation returns to `/`;
+              Arrival's completion event reveals it.
 
               `theme="dark"` is the SITE-WIDE default (Header mounts once,
               globally). Header forces `transparent-media` back on for the
               homepage specifically — see its own doc comment. */}
-          <Header suppressed={!hasArrived} theme="dark" />
+          <Header suppressed theme="dark" />
           {children}
         </NextIntlClientProvider>
       </body>

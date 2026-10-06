@@ -221,11 +221,27 @@ body {
 
 @keyframes arrival-current-reveal {
   from {
-    stroke-dashoffset: 300;
+    clip-path: inset(0 0 100% 0);
   }
   to {
-    stroke-dashoffset: 0;
+    clip-path: inset(0 0 0 0);
   }
+}
+
+/* Pillar choice → detail morph (Phase 14). The shared heading still moves and
+   resizes, but each side's own crossfade produced doubled glyphs, and the
+   page-level crossfade doubled the header and body text. Both are off for
+   pillar navigations only. */
+::view-transition-old(.morph) {
+  animation: none;
+  opacity: 0;
+}
+::view-transition-new(.morph) {
+  animation: none;
+}
+html:active-view-transition-type(pillar-choice)::view-transition-old(root),
+html:active-view-transition-type(pillar-choice)::view-transition-new(root) {
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

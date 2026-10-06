@@ -41,7 +41,7 @@ export default async function ExperiencePage({
               so the browser can morph between the two headings. `slug` stays
               locale-invariant (Phase 13), so this contract is unaffected by
               which locale is active. */}
-          <ViewTransition name={`pillar-name-${slug}`}>
+          <ViewTransition name={`pillar-name-${slug}`} share="morph" default="none">
             <h1 className="text-display mt-component text-limestone">{name}</h1>
           </ViewTransition>
           <p className="text-h4 mt-tight text-mist">{tagline}</p>

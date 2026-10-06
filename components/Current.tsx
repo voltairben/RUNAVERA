@@ -9,7 +9,6 @@ interface CurrentPathSpec {
 // moment has settled.
 const REVEAL_DELAY_MS = 1400;
 const REVEAL_DURATION_MS = 1200;
-const DASH_LENGTH = 300;
 
 // Two hand-authored, asymmetric bezier paths per breakpoint — not one path
 // rescaled. Desktop: shallow diagonal, wide exit spread. Mobile: steep,
@@ -46,7 +45,6 @@ function CurrentPaths({ paths }: { paths: CurrentPathSpec[] }) {
           className={path.color === "sunset" ? "stroke-sunset" : "stroke-mist"}
           style={{
             strokeWidth: "clamp(3px, 0.4vw, 6px)",
-            strokeDasharray: DASH_LENGTH,
             animation: `arrival-current-reveal ${REVEAL_DURATION_MS}ms cubic-bezier(0.16, 1, 0.3, 1) ${
               REVEAL_DELAY_MS + path.delayMs
             }ms both`,
@@ -64,8 +62,9 @@ interface CurrentProps {
 /**
  * The Current — two flowing lines extending outward from the logo,
  * representing the journey that follows the confluence the static logo
- * already depicts. Reveals via a stroke-dashoffset keyframe on mount (see
- * `arrival-current-reveal` in globals.css). Stroke width is intentionally
+ * already depicts. Reveals via a top-to-bottom clip-path wipe on mount (see
+ * `arrival-current-reveal` in globals.css); a dash reveal truncates under
+ * non-scaling-stroke because its length is in screen pixels. Stroke width is intentionally
  * uniform, not tapered — true per-point taper would need a filled-ribbon
  * path instead of a stroked line; deferred as a refinement, not attempted
  * here. `prefers-reduced-motion` is handled automatically by the existing
@@ -80,10 +79,12 @@ export function Current({ className }: CurrentProps) {
       aria-hidden="true"
       className={["pointer-events-none", className].filter(Boolean).join(" ")}
     >
-      <g className="hidden tablet:block">
+      {/* visibility, not display: display:none cancels the reveal animation,
+          so crossing the breakpoint mid-reveal would replay it from blank. */}
+      <g className="invisible tablet:visible">
         <CurrentPaths paths={desktopPaths} />
       </g>
-      <g className="tablet:hidden">
+      <g className="visible tablet:invisible">
         <CurrentPaths paths={mobilePaths} />
       </g>
     </svg>

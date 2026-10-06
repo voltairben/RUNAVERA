@@ -91,20 +91,19 @@ export function Pillar({
             : "bg-mist/40 group-hover:bg-sunset group-focus-within:bg-sunset",
         ].join(" ")}
       />
-      {/* Only the chosen pillar's heading ever carries a view-transition
-          name — the other three stay unwrapped, so at most one exists in
-          the tree at a time by construction (View Transitions require
-          uniqueness). The matching destination heading carries this same
-          `pillar-name-${slug}` value (see app/[locale]/experiences/[slug]/page.tsx). */}
-      {isChosen ? (
-        <ViewTransition name={`pillar-name-${slug}`}>{heading}</ViewTransition>
-      ) : (
-        heading
-      )}
+      {/* Named before navigation so the old snapshot carries the name;
+          share="morph" + default="none" keep it a morph, not a crossfade (globals.css). */}
+      <ViewTransition name={`pillar-name-${slug}`} share="morph" default="none">
+        {heading}
+      </ViewTransition>
       <p className="text-body-lg mt-tight text-mist">{tagline}</p>
       <Link
         href={href}
-        onClick={onChoose}
+        onClick={(event) => {
+          // Modified clicks open a new tab and must not change this page's selection.
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          onChoose();
+        }}
         transitionTypes={["pillar-choice"]}
         className="mt-component inline-block text-body text-limestone underline decoration-transparent underline-offset-4 transition-colors duration-200 ease-out hover:text-sunset hover:decoration-current"
       >

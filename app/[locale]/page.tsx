@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
@@ -8,11 +7,9 @@ import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PillarGroup } from "@/components/PillarGroup";
 import { TextLink } from "@/components/TextLink";
-import { ARRIVAL_COOKIE_NAME } from "@/lib/arrival-cookie";
 
 // The real RUNAVERA homepage (Phase 5). Replaces the Phase 2/3 foundation
-// test surface entirely — this is what a first-time visitor sees right
-// after Arrival, and what a returning visitor sees immediately.
+// test surface entirely — it sits below Arrival on every homepage visit.
 async function HomePage({ locale }: { locale: string }) {
   const t = await getTranslations({ locale, namespace: "Home" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
@@ -135,20 +132,16 @@ async function HomePage({ locale }: { locale: string }) {
   );
 }
 
-// Arrival renders in-flow, before the homepage in DOM order — never a
-// replacement for it. A returning visitor (cookie present) never gets
-// <Arrival> in the DOM at all: zero flash. A first-time visitor gets both,
-// stacked — Arrival collapses itself on exit, and the homepage (already
-// present) is what's left. This also means a no-JS visitor can always
-// scroll past Arrival or use the skip-to-content link to reach it directly.
+// Arrival renders in-flow before the homepage on every visit — never a
+// replacement for it. It collapses on exit, leaving the already-rendered
+// homepage in place. A no-JS visitor can scroll past it or use the
+// skip-to-content link to reach the page directly.
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const cookieStore = await cookies();
-  const hasArrived = cookieStore.has(ARRIVAL_COOKIE_NAME);
 
   return (
     <>
-      {!hasArrived && <Arrival />}
+      <Arrival />
       <HomePage locale={locale} />
     </>
   );
