@@ -24,7 +24,7 @@ STRUCTURE & PLATFORM
 | 12    | Mobile experience                         | MERGED INTO PHASE 20 |
 | 13    | EN / NL / DE internationalisation         | COMPLETE |
 | 14    | Motion system & transitions               | COMPLETE    |
-| 15    | Frontend implementation refinement        | NOT STARTED |
+| 15    | Frontend implementation refinement        | COMPLETE    |
 | 16    | Backend / data architecture               | NOT STARTED |
 | 17    | Security                                   | NOT STARTED |
 
@@ -56,5 +56,5 @@ PHASE 15 FOLLOW-UP
 - **Phase 20 — Mobile experience and responsive verification:** Playwright breakpoint threshold differs. In Chromium 153 `(min-width: 48rem)` matches at 768px; in Firefox 155 (Playwright) it matches from 769px. Re-check the tablet-width layout and menu-close behaviour in real Firefox at 768px.
 - **Phase 23 — SEO:** give each localized page a distinct translated title. Today every route shares the layout default title, and the `%s | RUNAVERA` template in `app/[locale]/layout.tsx` is never applied.
 
-Current position: Phase 14 (Motion system & transitions) is complete — verified in Firefox 155, Chromium 153 and WebKit 26.6 at 1280×800 and 390×844 against a production build. The pillar heading morph runs only when the chosen heading is visible at transition start; off-screen, navigation proceeds normally without a morph and without scrolling (an intentional limitation, not a defect). Phase 13 (EN / NL / DE internationalisation) is complete — Dutch/German copy is a first draft, pending review. Phase 12 (Mobile experience) remains merged into Phase 20, "Mobile experience and responsive verification" — still future work, not complete. Phases 0–14 are complete, as recorded above. Do not begin Phase 15 or later work until explicitly approved in the conversation.
+Current position: Phases 0–15 are complete. Phase 15 (Frontend implementation refinement) fixed the mobile menu's focus cycle and breakpoint focus, and corrected stale comments; its deferred items are recorded in the Phase 15 follow-up block above. Phase 14 (Motion system & transitions) is complete — verified in Firefox 155, Chromium 153 and WebKit 26.6 at 1280×800 and 390×844 against a production build. The pillar heading morph runs only when the chosen heading is visible at transition start; off-screen, navigation proceeds normally without a morph and without scrolling (an intentional limitation, not a defect). Phase 13 (EN / NL / DE internationalisation) is complete — Dutch/German copy is a first draft, pending review. Phase 12 (Mobile experience) remains merged into Phase 20, "Mobile experience and responsive verification" — still future work, not complete. Phases 0–14 are complete, as recorded above. Do not begin Phase 15 or later work until explicitly approved in the conversation.
 
