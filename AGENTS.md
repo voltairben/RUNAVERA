@@ -253,9 +253,55 @@ Practical, conventional security baseline for the existing static site. No backe
 - **Dependencies** (`npm audit`): two high-severity advisories existed. `source-map-js` (via `postcss`, used by Tailwind/Next) had a compatible fix. A plain `npm audit fix` (no `--force`) patched it but also re-resolved `eslint-config-next` 16.3.6→16.4.0 (and its `@next/eslint-plugin-next` dependency) as an unrelated side effect — an in-range bump not tied to any audit finding, outside this phase's approved scope. That was reverted and redone surgically with `npm update source-map-js`, which touches only that package: confirmed `package.json` unchanged, `eslint-config-next` still `16.3.6`, Next/React/next-intl versions unchanged, and no lockfile/`node_modules` drift. `braces` (via `micromatch` → `fast-glob` → `@next/eslint-plugin-next` → `eslint-config-next`) is dev-only lint tooling, not shipped to production; its only available fix (`npm audit fix --force`) would downgrade `eslint-config-next` to 14.2.35, a breaking change incompatible with the pinned Next 16 toolchain — left unfixed and accepted, not force-downgraded. In-range minor/patch updates exist for `next`, `next-intl`, `eslint-config-next`, and `@types/node`, but none are tied to an audit finding, so they were left out of this phase.
 - **No application code changes**: the review found no API routes, server actions, forms, database/auth/payment clients, committed secrets, or open-redirect vector — nothing to fix beyond the headers and the one dependency bump above.
 
+## Reality Checker (Phase 18)
+
+A cross-cutting coherence pass over Phases 0–17 as a cumulative whole — report-only, no application code changed. Not a repeat of Phases 19–26's specialized suites. Checked against a clean `next build` + `next start` production run (temporary Playwright in the scratchpad, removed after the pass; no screenshot corpus, no new capture pipeline).
+
+**Route × Locale Inventory** — every real route, all three locales, against the production build: all 27 combinations returned 200 with real, correctly localized content (no English bleeding into `/nl`/`/de`, no missing-translation fallback), plus the two not-found edge cases (`/experiences/not-a-pillar`, a bogus path) and the unsupported-locale-looking `/fr/about` all correctly resolved to a localized 404. The only anomaly is the SSL console finding below, which affects content on none of these checks (all still 200 with correct content).
+
+| Route | en | nl | de |
+|---|---|---|---|
+| `/` | OK* | OK | OK |
+| `/about` | OK* | OK | OK |
+| `/experiences` | OK* | OK | OK |
+| `/experiences/escapes` | OK* | OK | OK |
+| `/experiences/explore` | OK* | OK | OK |
+| `/experiences/private` | OK* | OK | OK |
+| `/experiences/gather` | OK* | OK | OK |
+| `/maasplassen` | OK* | OK | OK |
+| `/plan` | OK* | OK | OK |
+| not-found (bad pillar slug, bogus path) | OK | OK | OK |
+| `/fr/about` (unsupported locale) | → localized `en` 404, OK | — | — |
+
+\* 200, correct content, but see the SSL/CSP finding below — every unprefixed English route logged one `net::ERR_SSL_PROTOCOL_ERROR` console error with no effect on status or content.
+
+**Shared Flow Results** — all seven flows from the approved scope were exercised against the production build and passed:
+- Arrival → Enter → header reveal → nav, CTA, and language switcher all visible and functional; returning to `/` via client navigation shows Arrival again with the header re-suppressed. PASS.
+- Pillar selection (`escapes`) → View Transition morph → `/experiences/escapes`, heading on screen at click, no console errors. PASS.
+- Mobile menu (390×844): close control (X) is in the focus cycle via Shift+Tab from the first link; a nav link closes the menu and releases `scroll-locked`. PASS.
+- Language switcher: `/about` → `nl` → `/plan` → `de`, both land on the equivalent page with the correct `<html lang>`. PASS.
+- Nav active-state: `aria-current="page"` present on `/about` and on the nested `/experiences/escapes` (Phase 11's boundary-aware match). PASS.
+- Five of Phase 17's six response headers (CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy) were spot re-checked on `/` and all present. `X-DNS-Prefetch-Control` was not included in this re-check — not verified in this pass, not claimed as checked. PASS for the five headers actually checked.
+- No-JS: header server-rendered hidden/inert on `/`, skip link reaches `#main-content`, mouse-wheel scroll past Arrival also reaches it. PASS.
+
+**Documentation Drift** — spot-checked rather than a full re-audit:
+- Phase 3's nav CTA variants (`DesktopNav` secondary, `MobileNav`'s own bottom CTA primary) — matches `components/DesktopNav.tsx:26`, `components/MobileNav.tsx:101`. Match: yes.
+- Phase 15's own `Pillar.tsx` CTA-comment fix — still intact and accurate at `components/Pillar.tsx:43-46`. Match: yes.
+- Phase 9's About-page verbatim copy (tagline, "the idea behind RUNAVERA" heading, the closing line reused on `/plan`) — present verbatim in `messages/en.json`. Match: yes.
+- Phase 5's per-pillar layout claim ("different horizontal inset and vertical gap... Private gets a deliberately larger gap at every width") — `components/PillarGroup.tsx:20-24`'s `layoutClassNames` still gives each of `explore`/`private`/`gather` a distinct `ml-*`/`mt-*` pair, and `private` is the only one using `mt-section`/`tablet:mt-atmosphere` (larger than the others' `mt-group`/`tablet:mt-section`). Match: yes.
+- Roadmap phase statuses, the Phase 14/15 follow-up blocks, and the Phase 16 deferral note — all match the current `Roadmap/Roadmap.txt` (0–15, 17, and 18 COMPLETE; 16 deferred/NOT STARTED; 19–26 NOT STARTED). Match: yes.
+- `CLAUDE.md`/`AGENTS.md` sync — diverge in exactly two places, not one: the already-known `.claude/agents/` vs `.codex/agents/` line, and this `<!-- BEGIN/END:nextjs-agent-rules -->` block, which lives only in `CLAUDE.md`. Traced to `node_modules/next/dist/server/lib/generate-agent-files.js`: `next dev` upserts this block into exactly one of the two files, never both (`agentsMd: 'skipped'` or `claudeMd: 'skipped'`, by design), and once one file hosts it the other never receives it from this mechanism. Confirmed mechanical, not editing drift — but it's a second, real exception beyond the one this project's own instructions name, worth tracking as such rather than re-discovering later.
+
+**Findings**
+- **Fix now** — Every unprefixed English route (not `/nl`/`/de`) logs `net::ERR_SSL_PROTOCOL_ERROR` once in the console when the production build is served locally over plain HTTP (`next start`, no TLS). Cause: Phase 17's `upgrade-insecure-requests` CSP directive (gated on bare `NODE_ENV==="production"`) upgrades a same-origin background request to `https://localhost:<port>/` to HTTPS; the local server has no TLS listener, so the upgraded request fails. No functional or content impact was observed anywhere in this pass — every affected route still returned 200 with correct content, and every shared flow still passed. On a real HTTPS deployment this directive upgrading an already-HTTPS request is a no-op, so this is specifically a local-testing artifact, not a predicted production defect — but the current condition can't distinguish "really deployed over HTTPS" from "production build, tested locally over HTTP," so this will keep reproducing on every future local smoke test run the same way Phase 17's and this pass's did. Smallest proposed fix (not applied in this phase): gate the directive on a more specific signal than `NODE_ENV` (e.g. an explicit deployment/HTTPS env var), or document this exact limitation in the Security section above so it isn't re-diagnosed as a new bug next time. Not implemented here — Phase 18 is report-only.
+
+## What This Pass Does Not Claim
+
+This is a coherence check, not a certification. No grade, score, or production-readiness verdict is issued for RUNAVERA — that judgment waits for Phases 19–26 to run. The one finding above is reported for separate approval, not fixed here.
+
 ## Current phase
 
-Phase 17 — Security: complete. A static Content-Security-Policy and five other response headers are configured in `next.config.ts` and verified against a production build across every locale, a static asset, and both not-found pages (see Security above). `Strict-Transport-Security` is deliberately not set — its deployment requirement is documented, not implemented, since HTTPS/domain coverage can't be confirmed from the repo. Phase 24 remains the separate final security review. Phase 14 — Motion system & transitions: complete. Verified in Firefox 155, Chromium 153 and WebKit 26.6 at 1280×800 and 390×844 against the production build. The pillar morph runs only when the chosen heading is visible at transition start; off-screen, navigation proceeds normally without a morph or scroll (an intentional limitation, see Motion). Phase 13 — EN / NL / DE internationalisation — is complete (Dutch/German copy drafted, pending your review). Phase 12 (Mobile experience) remains merged into Phase 20, "Mobile experience and responsive verification" — still future work. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
+Phase 18 — Reality Checker passes: complete. A cross-cutting coherence pass over Phases 0–17 found every real route × locale combination rendering correctly, all seven shared end-to-end flows passing, and documentation/roadmap claims matching current source — see Reality Checker above for the full inventory, flow results, and the one finding (a local-HTTP-testing-only SSL console error from Phase 17's `upgrade-insecure-requests` directive, proposed but not fixed in this phase). The two Reality Checker agent profiles (`.claude/agents/testing-reality-checker.md`, `.codex/agents/testing-reality-checker.toml`) were rewritten to describe RUNAVERA's actual stack and constraints in place of generic, unrelated boilerplate. Phase 17 — Security: complete. A static Content-Security-Policy and five other response headers are configured in `next.config.ts` and verified against a production build across every locale, a static asset, and both not-found pages (see Security above). `Strict-Transport-Security` is deliberately not set — its deployment requirement is documented, not implemented, since HTTPS/domain coverage can't be confirmed from the repo. Phase 24 remains the separate final security review. Phase 14 — Motion system & transitions: complete. Verified in Firefox 155, Chromium 153 and WebKit 26.6 at 1280×800 and 390×844 against the production build. The pillar morph runs only when the chosen heading is visible at transition start; off-screen, navigation proceeds normally without a morph or scroll (an intentional limitation, see Motion). Phase 13 — EN / NL / DE internationalisation — is complete (Dutch/German copy drafted, pending your review). Phase 12 (Mobile experience) remains merged into Phase 20, "Mobile experience and responsive verification" — still future work. See `Roadmap/Roadmap.txt` for the full phase sequence and current status. Do not build enquiry/booking forms, backend, or any later phase until that phase is explicitly approved.
 
 ## Agent responsibilities (`.codex/agents/`)
 

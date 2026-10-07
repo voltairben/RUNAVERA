@@ -1,7 +1,16 @@
 # Phase 18 Design: RUNAVERA Reality Check
 
-**Status:** Proposed for review  
+**Status:** Superseded by an accepted execution plan (see addendum below)
 **Phase:** 18 — Reality Checker passes
+
+## Addendum (2026-10-07)
+
+The user instead reviewed and approved a different Phase 18 execution plan directly in conversation with Claude Code, and that plan — not this spec — is what was executed. The approved plan agrees with this spec's overall goal, scope, and boundaries, but differs in two concrete respects that supersede the corresponding sections below:
+
+- **Report location**: findings are recorded in a new `## Reality Checker (Phase 18)` section in `CLAUDE.md`/`AGENTS.md` (see the Current phase section there), not in a new `docs/quality/phase-18-reality-check.md` file. No file at that path was created.
+- **Triage/severity scheme**: each finding is triaged into exactly one of **fix now** (proposed, not applied) / **belongs to a named later phase** / **already documented** — not the Blocker/High/Medium/Low/Informational severity scale or COMPLETE/FINDINGS/BLOCKED outcome tags this spec's Scope/Completion Criteria describe.
+
+A separate, untracked implementation plan matching this spec's original report-location and tagging scheme also exists at `docs/superpowers/plans/2026-10-07-phase-18-reality-check.md`. It was not executed and is left as-is.
 
 ## Goal
 
