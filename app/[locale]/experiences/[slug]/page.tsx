@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { ViewTransition } from "react";
@@ -10,6 +11,26 @@ import { isPillarSlug, pillarSlugs } from "@/lib/pillars";
 
 export function generateStaticParams() {
   return pillarSlugs.map((slug) => ({ slug }));
+}
+
+// generateMetadata runs independently of the page body below, so an invalid
+// slug needs its own check here too — it can't rely on the body's own
+// notFound() call. An invalid slug reuses NotFound.heading, matching the
+// title the page body's own notFound() bubbles to (the localized
+// app/[locale]/not-found.tsx). A valid slug reuses its Pillars.{slug}.name —
+// the same name already shown as the page's own <h1>.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  if (!isPillarSlug(slug)) {
+    const t = await getTranslations({ locale, namespace: "NotFound" });
+    return { title: t("heading") };
+  }
+  const t = await getTranslations({ locale, namespace: "Pillars" });
+  return { title: t(`${slug}.name`) };
 }
 
 export default async function ExperiencePage({

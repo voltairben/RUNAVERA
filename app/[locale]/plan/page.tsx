@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { PillarGroup } from "@/components/PillarGroup";
 import { TextLink } from "@/components/TextLink";
+
+// Reuses the persistent nav CTA's own "Plan your experience" label
+// (Nav.planCta) — the exact same string every CTA on the site already uses.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Nav" });
+  return { title: t("planCta") };
+}
 
 // The decision-prompt moment every CTA on the site points to ("Plan your
 // experience"). Reuses <PillarGroup /> directly rather than inventing a new

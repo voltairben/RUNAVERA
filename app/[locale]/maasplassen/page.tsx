@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
@@ -5,6 +6,17 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { TextLink } from "@/components/TextLink";
+
+// Reuses the persistent nav's own "The Maasplassen" label (Nav.maasplassen).
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Nav" });
+  return { title: t("maasplassen") };
+}
 
 export default async function MaasplassenPage({
   params,

@@ -1,9 +1,22 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { TextLink } from "@/components/TextLink";
 import { pillarSlugs } from "@/lib/pillars";
+
+// Reuses the persistent nav's own "Experiences" label (Nav.experiences) —
+// same reasoning as the About page's generateMetadata below.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Nav" });
+  return { title: t("experiences") };
+}
 
 // A plain directory, not a second "chooser" — the asymmetric layout,
 // hairline motif, and <ViewTransition> wrapping all belong to the

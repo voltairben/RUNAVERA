@@ -1,9 +1,23 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Eyebrow } from "@/components/Eyebrow";
 import { TextLink } from "@/components/TextLink";
+
+// Reuses the persistent nav's own "About" label (lib/navigation.ts's
+// translation key, Nav.about) rather than a separate SEO-only string — one
+// source for the same word, not two copies to keep in sync across locales.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Nav" });
+  return { title: t("about") };
+}
 
 export default async function AboutPage({
   params,
