@@ -34,7 +34,7 @@ export default async function ExperiencesIndexPage({
   const tPillars = await getTranslations({ locale, namespace: "Pillars" });
 
   return (
-    <main id="main-content" className="pt-header">
+    <main id="main-content" tabIndex={-1} className="pt-header">
       <section className="bg-deep-water py-group tablet:py-section">
         <Container size="wide">
           <Eyebrow>{t("eyebrow")}</Eyebrow>

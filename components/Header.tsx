@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { Container } from "@/components/Container";
@@ -105,7 +105,12 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
     return () => window.removeEventListener(ARRIVAL_COMPLETE_EVENT, handleArrivalComplete);
   }, []);
 
-  const closeMenu = () => {
+  // Stable identity (Phase 25/follow-up): MobileNav's Tab-trap effect
+  // depends on this callback, so an unstable reference re-ran it (and
+  // refocused the first panel link) on any Header re-render while the menu
+  // was open, not only on genuine open — e.g. an isScrolled flip from a
+  // stray scroll event during the imperfect `.scroll-locked` overflow lock.
+  const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
     const trigger = menuButtonRef.current;
     if (trigger && trigger.getClientRects().length > 0) {
@@ -116,7 +121,7 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
     // first rendered link instead of letting focus fall to <body>.
     const links = Array.from(dialogRef.current?.querySelectorAll<HTMLElement>("a[href]") ?? []);
     links.find((link) => link.getClientRects().length > 0)?.focus();
-  };
+  }, []);
   const toggleMenu = () => (isMenuOpen ? closeMenu() : setIsMenuOpen(true));
 
   // If the viewport crosses into tablet+ while the mobile menu is open
@@ -131,7 +136,7 @@ export function Header({ theme: themeProp = "dark", suppressed: initialSuppresse
     };
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [isMenuOpen]);
+  }, [isMenuOpen, closeMenu]);
 
   // Mobile header is a constant 64px (h-16), no scroll-shrink — only
   // tablet+ gets the subtle shrink to 64px from --header-height (guardrail:

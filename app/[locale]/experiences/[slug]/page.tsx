@@ -51,7 +51,7 @@ export default async function ExperiencePage({
   const description = t(`${slug}.description`);
 
   return (
-    <main id="main-content" className="pt-header">
+    <main id="main-content" tabIndex={-1} className="pt-header">
       <section className="bg-deep-water py-group tablet:py-section">
         <Container size="measure">
           <TextLink href="/" variant="subtle" className="text-body-sm inline-block">

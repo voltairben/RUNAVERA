@@ -12,7 +12,7 @@ export default async function LocaleNotFound() {
   const t = await getTranslations("NotFound");
 
   return (
-    <main id="main-content" className="flex min-h-dvh items-center bg-deep-water pt-header">
+    <main id="main-content" tabIndex={-1} className="flex min-h-dvh items-center bg-deep-water pt-header">
       <Container size="measure" className="flex flex-col items-start gap-content">
         <p className="text-eyebrow text-mist">404</p>
         <h1 className="text-h1 text-limestone">{t("heading")}</h1>

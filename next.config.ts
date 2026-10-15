@@ -31,6 +31,17 @@ const cspHeader = `
   .trim();
 
 const nextConfig: NextConfig = {
+  // Dev-server-only, no effect on production builds: Next 16's dev server
+  // blocks cross-origin requests to dev-only assets (notably the Turbopack
+  // HMR WebSocket) from any origin other than localhost by default. Without
+  // this, loading the dev server from a LAN IP (e.g. for real-phone testing)
+  // leaves the HMR connection rejected and the client never completes
+  // hydration — confirmed directly: the exact same page works via
+  // `localhost` and is fully non-interactive via the LAN IP, with the
+  // rejected HMR handshake as the only difference between the two. This is
+  // this machine's current LAN IP (same one used for real-device testing in
+  // Phase 20/21/26); update it if the IP changes.
+  allowedDevOrigins: ["192.168.0.191"],
   async headers() {
     return [
       {

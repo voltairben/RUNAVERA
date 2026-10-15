@@ -28,7 +28,7 @@ export default async function MaasplassenPage({
   const tCommon = await getTranslations({ locale, namespace: "Common" });
 
   return (
-    <main id="main-content" className="pt-header">
+    <main id="main-content" tabIndex={-1} className="pt-header">
       {/* Height-bounded editorial banner, not a repeat of the homepage's
           cinematic 100dvh hero — this page's job is a slower, text-led
           read, not a first-impression arrival. Sits below the header
