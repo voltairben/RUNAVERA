@@ -14,8 +14,8 @@ export function DesktopNav() {
   const t = useTranslations("Nav");
 
   return (
-    <div className="hidden items-center gap-component tablet:flex">
-      <ul className="flex items-center gap-content text-nav">
+    <div className="hidden items-center gap-tight tablet:flex desktop:gap-component">
+      <ul className="flex items-center gap-tight whitespace-nowrap text-nav desktop:gap-content">
         {primaryNavItems.map((item) => (
           <li key={item.href}>
             <NavLink href={item.href}>{t(item.labelKey)}</NavLink>

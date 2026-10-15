@@ -117,6 +117,7 @@ async function HomePage({ locale }: { locale: string }) {
       {/* ---------- Closing CTA ---------- */}
       <section aria-labelledby="cta-heading" className="bg-deep-water py-group tablet:py-section">
         <Container size="wide" className="flex flex-col items-start gap-content">
+          <Eyebrow>{tCommon("ctaEyebrow")}</Eyebrow>
           <h2 id="cta-heading" className="text-h3 max-w-[65ch] text-limestone">
             {/* text-h3 is a visual-weight choice only — kept a semantic H2
                 so the closing CTA stays a peer of Maasplassen/Story in the
